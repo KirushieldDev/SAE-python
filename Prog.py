@@ -32,7 +32,7 @@ def sparx1(x, y):
 
 
 def sparx2(x, y):
-    """Création du sparx2"""
+    """Création du sparx2final"""
     largeurSparx = 40
     hauteurSparx = 40
     image(x, y, "Sparx.gif", largeurSparx, hauteurSparx, ancrage="center", tag="spar2")
