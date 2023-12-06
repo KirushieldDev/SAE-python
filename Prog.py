@@ -2,10 +2,9 @@ from fltk import *
 from random import *
 from time import sleep
 
-"""Création du Qix"""
-
 
 def fantome(x, y):
+    """Création du Qix"""
     largeurFantome = 100
     hauteurFantome = 110
     image(
