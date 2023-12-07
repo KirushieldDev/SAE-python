@@ -1,7 +1,6 @@
 from fltk import *
 
 def joueur(x: int, y: int, taille=5):
-    """Dessine le joueur"""
     cercle(x, y, taille, couleur="lime", tag="joueur")
 
 def dessin(ax: int, ay: int, bx: int, by: int):
@@ -9,7 +8,7 @@ def dessin(ax: int, ay: int, bx: int, by: int):
 
 def tracerPolygone(listePositions: list):
     if len(listePositions) >= 3:
-        polygone(listePositions, couleur="white", remplissage="red", tag="aire")
+        polygone(listePositions, couleur="white", epaisseur=2, remplissage="green", tag="aire")
 
 largeurFenetre = 1500
 hauteurFenetre = 900
@@ -34,30 +33,39 @@ listePositionsLignes = []
 while True:
     ev = donne_ev()
     if ev is not None:
+        if type_ev(ev) == "Quitte":
+            break
         if type_ev(ev) == "Touche":
             oldX, oldY = xJoueur, yJoueur
 
             if touche(ev) == "Up" and yJoueur > y1:
                 yJoueur -= tailleJoueur
                 if touche_pressee("Return"):
-                    dessin(xJoueur, yJoueur, xJoueur, yJoueur + tailleJoueur)
+                    dessin(oldX, oldY, oldX, yJoueur)
+                    listePositionsLignes.append((oldX, oldY, oldX, yJoueur))
                     
             elif touche(ev) == "Down" and yJoueur < y2:
                 yJoueur += tailleJoueur
                 if touche_pressee("Return"):
-                    dessin(xJoueur, yJoueur, xJoueur, yJoueur - tailleJoueur)
+                    dessin(oldX, oldY, oldX, yJoueur)
+                    listePositionsLignes.append((oldX, oldY, oldX, yJoueur))
                         
             elif touche(ev) == "Left" and xJoueur > x1:
                 xJoueur -= tailleJoueur
                 if touche_pressee("Return"):
-                    dessin(xJoueur, yJoueur, xJoueur + tailleJoueur, yJoueur)
+                    dessin(oldX, oldY, xJoueur, oldY)
+                    listePositionsLignes.append((oldX, oldY, xJoueur, oldY))
 
             elif touche(ev) == "Right" and xJoueur < x2:
                 xJoueur += tailleJoueur
                 if touche_pressee("Return"):
-                    dessin(xJoueur, yJoueur, xJoueur - tailleJoueur, yJoueur)
+                    dessin(oldX, oldY, xJoueur, oldY)
+                    listePositionsLignes.append((oldX, oldY, xJoueur, oldY))
 
             efface("joueur")
             joueur(xJoueur, yJoueur)
-
+            
+        tracerPolygone(listePositionsLignes)
     mise_a_jour()
+
+ferme_fenetre()
