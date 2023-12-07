@@ -44,35 +44,55 @@ while True:
                 if touche_pressee("Return"):
                     dessin(oldX, oldY, oldX, yJoueur)
                     listePositionsLignes.append((oldX, oldY, oldX, yJoueur))
+                    if (xJoueur <= x1 or xJoueur >= x2 or yJoueur <= y1 or yJoueur >= y2):
+                        # Si le joueur fait un clic droit, ferme le polygone avec la dernière ligne dessinée
+                        dernierPoint = listePositionsLignes[-1][2:]
+                        listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
+                        tracerPolygone(listePositionsLignes)
+                        listePositionsPolygone.extend(listePositionsLignes)
+                        listePositionsLignes = []  # Réinitialise la liste des lignes après avoir tracé le polygone
                     
             elif touche(ev) == "Down" and yJoueur < y2:
                 yJoueur += tailleJoueur
                 if touche_pressee("Return"):
                     dessin(oldX, oldY, oldX, yJoueur)
                     listePositionsLignes.append((oldX, oldY, oldX, yJoueur))
+                    if (xJoueur <= x1 or xJoueur >= x2 or yJoueur <= y1 or yJoueur >= y2):
+                        # Si le joueur fait un clic droit, ferme le polygone avec la dernière ligne dessinée
+                        dernierPoint = listePositionsLignes[-1][2:]
+                        listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
+                        tracerPolygone(listePositionsLignes)
+                        listePositionsPolygone.extend(listePositionsLignes)
+                        listePositionsLignes = []  # Réinitialise la liste des lignes après avoir tracé le polygone
                         
             elif touche(ev) == "Left" and xJoueur > x1:
                 xJoueur -= tailleJoueur
                 if touche_pressee("Return"):
                     dessin(oldX, oldY, xJoueur, oldY)
                     listePositionsLignes.append((oldX, oldY, xJoueur, oldY))
+                    if (xJoueur <= x1 or xJoueur >= x2 or yJoueur <= y1 or yJoueur >= y2):
+                        # Si le joueur fait un clic droit, ferme le polygone avec la dernière ligne dessinée
+                        dernierPoint = listePositionsLignes[-1][2:]
+                        listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
+                        tracerPolygone(listePositionsLignes)
+                        listePositionsPolygone.extend(listePositionsLignes)
+                        listePositionsLignes = []  # Réinitialise la liste des lignes après avoir tracé le polygone
 
             elif touche(ev) == "Right" and xJoueur < x2:
                 xJoueur += tailleJoueur
                 if touche_pressee("Return"):
                     dessin(oldX, oldY, xJoueur, oldY)
                     listePositionsLignes.append((oldX, oldY, xJoueur, oldY))
+                    if (xJoueur <= x1 or xJoueur >= x2 or yJoueur <= y1 or yJoueur >= y2):
+                        # Si le joueur fait un clic droit, ferme le polygone avec la dernière ligne dessinée
+                        dernierPoint = listePositionsLignes[-1][2:]
+                        listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
+                        tracerPolygone(listePositionsLignes)
+                        listePositionsPolygone.extend(listePositionsLignes)
+                        listePositionsLignes = []  # Réinitialise la liste des lignes après avoir tracé le polygone
 
             efface("joueur")
             joueur(xJoueur, yJoueur)
-            
-        if type_ev(ev) == "ClicDroit" and len(listePositionsLignes) > 0:
-            # Si le joueur fait un clic droit, ferme le polygone avec la dernière ligne dessinée
-            dernierPoint = listePositionsLignes[-1][2:]
-            listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
-            tracerPolygone(listePositionsLignes)
-            listePositionsPolygone.extend(listePositionsLignes)
-            listePositionsLignes = []  # Réinitialise la liste des lignes après avoir tracé le polygone
 
     mise_a_jour()
 
