@@ -5,13 +5,29 @@ def joueur(x: int, y: int, taille=5):
     cercle(x, y, taille, couleur="lime", tag="joueur")
 
 def dessin(ax: int, ay: int, bx: int, by: int):
-    ligne(ax, ay, bx, by, couleur="lime", tag="dessin")
+    ligne(ax, ay, bx, by, couleur="white", tag="dessin")
+
+def mise_a_jour_direction(direction):
+    nouvelle_dir = direction
+    ev = donne_ev()
+    t_ev = type_ev(ev)
+    if t_ev == "Touche":
+        t = touche(ev)
+        if t == "Right":
+            nouvelle_dir = "droite"
+        elif t == "Left":
+            nouvelle_dir = "gauche"
+        if t == "Up":
+            nouvelle_dir = "haut"
+        elif t == "Down":
+            nouvelle_dir = "bas"
+    return nouvelle_dir
 
 def tracerPolygone(listePositions: list):
-    polygone(listePositions, couleur="white", remplissage="red", tag="aire")
+    polygone(listePositions, couleur="lime", remplissage="red", tag="aire")
 
 largeurFenetre = 1500
-hauteurFenetre = 1000
+hauteurFenetre = 900
 
 cree_fenetre(largeurFenetre, hauteurFenetre)
 rectangle(0, 0, largeurFenetre, hauteurFenetre, remplissage="black")
@@ -56,8 +72,6 @@ while True:
                 if touche_pressee("Return"):
                     dessin(xJoueur, yJoueur, xJoueur - tailleJoueur, yJoueur)
 
-            # Efface la fenêtre et redessine le joueur
             efface("joueur")
             joueur(xJoueur, yJoueur)
-
     mise_a_jour()
