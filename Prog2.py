@@ -21,13 +21,13 @@ y1 = 200
 y2 = 800
 rectangle(x1, y1, x2, y2, couleur="white")
 
-xJoueur = x2-x1
+xJoueur = x2 - x1
 yJoueur = y2
 tailleJoueur = 5
 
 cercle(xJoueur, yJoueur, tailleJoueur, couleur="lime", tag="joueur")
 
-lstBords = [(x1,y1), (x2,y1), (x2,y2), (x1,y2)]
+lstBords = [(x1, y1), (x2, y1), (x2, y2), (x1, y2)]
 
 # Boucle principale pour traiter les événements
 while True:
@@ -37,28 +37,23 @@ while True:
             # Sauvegarde les anciennes coordonnées
             oldX, oldY = xJoueur, yJoueur
 
-            # Déplace le joueur selon les touches flèche
-            if touche(ev) == "Up":
+            # Déplace le joueur uniquement le long des bords
+            if touche(ev) == "Up" and yJoueur > y1:
                 yJoueur -= tailleJoueur
                 if touche_pressee("Return"):
-                    dessin(xJoueur,yJoueur,xJoueur,yJoueur+tailleJoueur)
-            elif touche(ev) == "Down":
+                    dessin(xJoueur, yJoueur, xJoueur, yJoueur + tailleJoueur)
+            elif touche(ev) == "Down" and yJoueur < y2:
                 yJoueur += tailleJoueur
                 if touche_pressee("Return"):
-                    dessin(xJoueur,yJoueur,xJoueur,yJoueur-tailleJoueur)
-            elif touche(ev) == "Left":
+                    dessin(xJoueur, yJoueur, xJoueur, yJoueur - tailleJoueur)
+            elif touche(ev) == "Left" and xJoueur > x1:
                 xJoueur -= tailleJoueur
                 if touche_pressee("Return"):
-                    dessin(xJoueur,yJoueur,xJoueur+tailleJoueur,yJoueur)
-            elif touche(ev) == "Right":
+                    dessin(xJoueur, yJoueur, xJoueur + tailleJoueur, yJoueur)
+            elif touche(ev) == "Right" and xJoueur < x2:
                 xJoueur += tailleJoueur
                 if touche_pressee("Return"):
-                    dessin(xJoueur,yJoueur,xJoueur-tailleJoueur,yJoueur)
-
-            # Vérifie les limites du rectangle
-            if xJoueur < x1 or xJoueur > x2 or yJoueur < y1 or yJoueur > y2:
-                # Si les nouvelles coordonnées sont en dehors, restaure les anciennes
-                xJoueur, yJoueur = oldX, oldY
+                    dessin(xJoueur, yJoueur, xJoueur - tailleJoueur, yJoueur)
 
             # Efface la fenêtre et redessine le joueur
             efface("joueur")
