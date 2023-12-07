@@ -8,10 +8,10 @@ def dessin(ax: int, ay: int, bx: int, by: int):
 
 def tracerPolygone(listePositions: list):
     if len(listePositions) >= 3:
-        polygone(listePositions, couleur="white", epaisseur=2, remplissage="green", tag="aire")
+        polygone(listePositions, couleur="white", remplissage="green", tag="aire")
 
 largeurFenetre = 1500
-hauteurFenetre = 900
+hauteurFenetre = 850
 
 cree_fenetre(largeurFenetre, hauteurFenetre)
 rectangle(0, 0, largeurFenetre, hauteurFenetre, remplissage="black")
@@ -29,6 +29,7 @@ cercle(xJoueur, yJoueur, tailleJoueur, couleur="lime", tag="joueur")
 
 lstBords = [(x1, y1), (x2, y1), (x2, y2), (x1, y2)]
 listePositionsLignes = []
+listePositionsPolygone = []
 
 while True:
     ev = donne_ev()
@@ -65,7 +66,14 @@ while True:
             efface("joueur")
             joueur(xJoueur, yJoueur)
             
-        tracerPolygone(listePositionsLignes)
+        if type_ev(ev) == "ClicDroit" and len(listePositionsLignes) > 0:
+            # Si le joueur fait un clic droit, ferme le polygone avec la dernière ligne dessinée
+            dernierPoint = listePositionsLignes[-1][2:]
+            listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
+            tracerPolygone(listePositionsLignes)
+            listePositionsPolygone.extend(listePositionsLignes)
+            listePositionsLignes = []  # Réinitialise la liste des lignes après avoir tracé le polygone
+
     mise_a_jour()
 
 ferme_fenetre()
