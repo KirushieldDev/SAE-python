@@ -8,7 +8,7 @@ def dessin(ax: int, ay: int, bx: int, by: int):
     ligne(ax, ay, bx, by, couleur="lime", tag="dessin")
 
 def tracerPolygone(listePositions: list):
-    polygone(listePositions, couleur="blue", remplissage="blue", tag="aire")
+    polygone(listePositions, couleur="white", remplissage="red", tag="aire")
 
 largeurFenetre = 1500
 hauteurFenetre = 1000
@@ -28,6 +28,7 @@ tailleJoueur = 5
 cercle(xJoueur, yJoueur, tailleJoueur, couleur="lime", tag="joueur")
 
 lstBords = [(x1, y1), (x2, y1), (x2, y2), (x1, y2)]
+lstPositions = []
 
 # Boucle principale pour traiter les événements
 while True:
