@@ -352,7 +352,7 @@ if __name__ == "__main__":
                     yJoueur + (tailleJoueur // 2),
                     xJoueur + (tailleJoueur // 2),
                     yJoueur + (tailleJoueur // 2) + vitesseJoueur,
-                )  # On dessine la ligne qui va suivre le joueur
+                    )  # On dessine la ligne qui va suivre le joueur
                 listePositionsLignes.append(
                     (xJoueur + (tailleJoueur // 2), yJoueur + (tailleJoueur // 2))
                 )  # On ajoute les positions des sommets des lignes afin de tracer le polygone
