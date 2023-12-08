@@ -47,6 +47,7 @@ while True:
                     if (xJoueur <= x1 or xJoueur >= x2 or yJoueur <= y1 or yJoueur >= y2):
                         dernierPoint = listePositionsLignes[-1][2:]
                         listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
+                        listePositionsLignes.append(lstBords[3])
                         tracerPolygone(listePositionsLignes)
                         listePositionsPolygone.extend(listePositionsLignes)
                         listePositionsLignes = []
@@ -59,6 +60,7 @@ while True:
                     if (xJoueur <= x1 or xJoueur >= x2 or yJoueur <= y1 or yJoueur >= y2):
                         dernierPoint = listePositionsLignes[-1][2:]
                         listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
+                        listePositionsLignes.append(lstBords[3])
                         tracerPolygone(listePositionsLignes)
                         listePositionsPolygone.extend(listePositionsLignes)
                         listePositionsLignes = []
@@ -71,6 +73,7 @@ while True:
                     if (xJoueur <= x1 or xJoueur >= x2 or yJoueur <= y1 or yJoueur >= y2):
                         dernierPoint = listePositionsLignes[-1][2:]
                         listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
+                        listePositionsLignes.append(lstBords[3])
                         tracerPolygone(listePositionsLignes)
                         listePositionsPolygone.extend(listePositionsLignes)
                         listePositionsLignes = []
@@ -83,6 +86,7 @@ while True:
                     if (xJoueur <= x1 or xJoueur >= x2 or yJoueur <= y1 or yJoueur >= y2):
                         dernierPoint = listePositionsLignes[-1][2:]
                         listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
+                        listePositionsLignes.append(lstBords[3])
                         tracerPolygone(listePositionsLignes)
                         listePositionsPolygone.extend(listePositionsLignes)
                         listePositionsLignes = []
