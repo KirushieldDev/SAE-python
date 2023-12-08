@@ -13,7 +13,7 @@ def tracerPolygone(listePositions: list):
 
 def dessiner_obstacles(obstacles):
     for obstacle in obstacles:
-        rectangle(obstacle[0], obstacle[1], obstacle[2], obstacle[3], couleur="blue", remplissage="blue", tag="obstacle")
+        rectangle(obstacle[0], obstacle[1], obstacle[2], obstacle[3], couleur="gray", remplissage="gray", tag="obstacle")
 
 largeurFenetre = 1500
 hauteurFenetre = 900
@@ -26,14 +26,14 @@ y1 = 200
 y2 = 800
 rectangle(x1, y1, x2, y2, couleur="white")
 ligne(x1, y1-30, x2, y1-30, couleur="red", epaisseur=5)
+# Logo Qix
 image(500, 100, "Qix.gif", ancrage="center", tag="im")
 
 xJoueur = (x2 + x1) // 2
 yJoueur = y2
 tailleJoueur = 5
-vitesseJoueur = 5
+vitesseJoueur = 5  # Vitesse initiale
 enTrainDeDessiner = False
-espacePresse = False
 
 cercle(xJoueur, yJoueur, tailleJoueur, couleur="lime", tag="joueur")
 
@@ -41,22 +41,25 @@ lstBords = [(x1, y1), (x2, y1), (x2, y2), (x1, y2)]
 listePositionsLignes = []
 listePositionsPolygone = []
 
-nombre_pommes = 5
+# Initialiser les pommes
+nombre_pommes = randint(5, 8)
 pommes = [(randint(x1, x2), randint(y1, y2)) for _ in range(nombre_pommes)]
 
-nombre_obstacles = randint(1, 5)
+# Initialiser les obstacles avec des tailles et positions aléatoires
+nombre_obstacles = randint(1, 5)  # Choisissez la plage de nombre d'obstacles
 obstacles = []
 for _ in range(nombre_obstacles):
-    taille_obstacle = randint(20, 50)
+    taille_obstacle = randint(20, 50)  # Choisissez la plage de tailles d'obstacles
     x_obstacle = randint(x1, x2 - taille_obstacle)
     y_obstacle = randint(y1, y2 - taille_obstacle)
     obstacles.append((x_obstacle, y_obstacle, x_obstacle + taille_obstacle, y_obstacle + taille_obstacle))
 
 def dessiner_pommes():
     for pomme in pommes:
-        cercle(pomme[0], pomme[1], 5, couleur="red", tag="pomme")
+        cercle(pomme[0], pomme[1], 5, couleur="red", remplissage="red", tag="pomme")
 
 def peut_deplacer_nouvelle_position(x, y):
+    # Vérifie si la nouvelle position est à l'intérieur d'un obstacle
     for obstacle in obstacles:
         if obstacle[0] <= x <= obstacle[2] and obstacle[1] <= y <= obstacle[3]:
             return False
@@ -95,7 +98,6 @@ while True:
                     listePositionsPolygone.extend(listePositionsLignes)
                     listePositionsLignes = []
                     enTrainDeDessiner = not enTrainDeDessiner
-                    espacePresse = False
 
             efface("joueur")
             joueur(xJoueur, yJoueur)
@@ -103,16 +105,17 @@ while True:
             if touche(ev) == "Return":
                 enTrainDeDessiner = not enTrainDeDessiner
 
+            # Vérifier si le joueur touche une pomme
             for pomme in pommes:
                 distance = ((pomme[0] - xJoueur) ** 2 + (pomme[1] - yJoueur) ** 2) ** 0.5
-                if distance < tailleJoueur + 5:
+                if distance < tailleJoueur + 5:  # Ajustez la tolérance selon vos besoins
                     pommes.remove(pomme)
-                    efface("pomme")
-                    dessiner_pommes()
+                    efface("pomme")  # Effacer toutes les pommes
+                    dessiner_pommes()  # Redessiner les pommes restantes
 
-            if touche(ev) == "space" and not enTrainDeDessiner and not espacePresse:
+            # Changer la vitesse du joueur lors de l'appui sur la barre d'espace
+            if touche(ev) == "space" and not enTrainDeDessiner:
                 vitesseJoueur += 5
-                espacePresse = True
 
     dessiner_pommes()
     dessiner_obstacles(obstacles)
