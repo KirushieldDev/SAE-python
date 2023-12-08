@@ -45,12 +45,11 @@ while True:
                     dessin(oldX, oldY, oldX, yJoueur)
                     listePositionsLignes.append((oldX, oldY, oldX, yJoueur))
                     if (xJoueur <= x1 or xJoueur >= x2 or yJoueur <= y1 or yJoueur >= y2):
-                        # Si le joueur fait un clic droit, ferme le polygone avec la dernière ligne dessinée
                         dernierPoint = listePositionsLignes[-1][2:]
                         listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
                         tracerPolygone(listePositionsLignes)
                         listePositionsPolygone.extend(listePositionsLignes)
-                        listePositionsLignes = []  # Réinitialise la liste des lignes après avoir tracé le polygone
+                        listePositionsLignes = []
                     
             elif touche(ev) == "Down" and yJoueur < y2:
                 yJoueur += tailleJoueur
@@ -58,12 +57,11 @@ while True:
                     dessin(oldX, oldY, oldX, yJoueur)
                     listePositionsLignes.append((oldX, oldY, oldX, yJoueur))
                     if (xJoueur <= x1 or xJoueur >= x2 or yJoueur <= y1 or yJoueur >= y2):
-                        # Si le joueur fait un clic droit, ferme le polygone avec la dernière ligne dessinée
                         dernierPoint = listePositionsLignes[-1][2:]
                         listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
                         tracerPolygone(listePositionsLignes)
                         listePositionsPolygone.extend(listePositionsLignes)
-                        listePositionsLignes = []  # Réinitialise la liste des lignes après avoir tracé le polygone
+                        listePositionsLignes = []
                         
             elif touche(ev) == "Left" and xJoueur > x1:
                 xJoueur -= tailleJoueur
@@ -71,12 +69,11 @@ while True:
                     dessin(oldX, oldY, xJoueur, oldY)
                     listePositionsLignes.append((oldX, oldY, xJoueur, oldY))
                     if (xJoueur <= x1 or xJoueur >= x2 or yJoueur <= y1 or yJoueur >= y2):
-                        # Si le joueur fait un clic droit, ferme le polygone avec la dernière ligne dessinée
                         dernierPoint = listePositionsLignes[-1][2:]
                         listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
                         tracerPolygone(listePositionsLignes)
                         listePositionsPolygone.extend(listePositionsLignes)
-                        listePositionsLignes = []  # Réinitialise la liste des lignes après avoir tracé le polygone
+                        listePositionsLignes = []
 
             elif touche(ev) == "Right" and xJoueur < x2:
                 xJoueur += tailleJoueur
@@ -84,12 +81,11 @@ while True:
                     dessin(oldX, oldY, xJoueur, oldY)
                     listePositionsLignes.append((oldX, oldY, xJoueur, oldY))
                     if (xJoueur <= x1 or xJoueur >= x2 or yJoueur <= y1 or yJoueur >= y2):
-                        # Si le joueur fait un clic droit, ferme le polygone avec la dernière ligne dessinée
                         dernierPoint = listePositionsLignes[-1][2:]
                         listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
                         tracerPolygone(listePositionsLignes)
                         listePositionsPolygone.extend(listePositionsLignes)
-                        listePositionsLignes = []  # Réinitialise la liste des lignes après avoir tracé le polygone
+                        listePositionsLignes = []
 
             efface("joueur")
             joueur(xJoueur, yJoueur)
