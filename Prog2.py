@@ -1,4 +1,5 @@
 from fltk import *
+from random import randint
 
 def joueur(x: int, y: int, taille=5):
     cercle(x, y, taille, couleur="lime", tag="joueur")
@@ -34,6 +35,14 @@ cercle(xJoueur, yJoueur, tailleJoueur, couleur="lime", tag="joueur")
 lstBords = [(x1, y1), (x2, y1), (x2, y2), (x1, y2)]
 listePositionsLignes = []
 listePositionsPolygone = []
+
+# Initialiser les pommes
+nombre_pommes = 5  # Choisissez le nombre initial de pommes
+pommes = [(randint(x1, x2), randint(y1, y2)) for _ in range(nombre_pommes)]
+
+def dessiner_pommes():
+    for pomme in pommes:
+        cercle(pomme[0], pomme[1], 5, couleur="red", tag="pomme")
 
 while True:
     ev = donne_ev()
@@ -101,6 +110,15 @@ while True:
             if touche(ev) == "Return":
                 enTrainDeDessiner = not enTrainDeDessiner
 
+            # Vérifier si le joueur touche une pomme
+            for pomme in pommes:
+                distance = ((pomme[0] - xJoueur) ** 2 + (pomme[1] - yJoueur) ** 2) ** 0.5
+                if distance < tailleJoueur + 5:  # Ajustez la tolérance selon vos besoins
+                    pommes.remove(pomme)
+                    efface("pomme")  # Effacer toutes les pommes
+                    dessiner_pommes()  # Redessiner les pommes restantes
+
+    dessiner_pommes()
     mise_a_jour()
 
 ferme_fenetre()
