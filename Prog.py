@@ -43,15 +43,15 @@ def sparx2(x, y):
 """Dessin du joueur"""
 
 
-def player(x: int, y: int, cote: int):
-    rectangle(x, y, x + cote, y + cote, epaisseur="3", couleur="red", tag="player")
+def joueur(x: int, y: int, taille=8):
+    cercle(x, y, taille, couleur="lime", tag="joueur")
 
 
 """La fonction qui permet de dessiner la ligne qui suit le joueur"""
 
 
 def dessin(ax: int, ay: int, bx: int, by: int):
-    ligne(ax, ay, bx, by, couleur="lime", tag="dessin")
+    ligne(ax, ay, bx, by, couleur="white", tag="dessin")
 
 
 """La fonction qui permet de tracer le polygone à partir des points des lignes"""
@@ -60,19 +60,6 @@ def dessin(ax: int, ay: int, bx: int, by: int):
 def tracerPolygone(listePositions: list):
     polygone(listePositions, couleur="blue", remplissage="blue", tag="aire")
 
-
-"""La fonction qui permet de calculer l'aire des polygones"""
-
-
-def calculAire(sommets):
-    n = len(sommets)
-    aire = 0
-    for i in range(n):
-        x1, y1 = sommets[i]
-        x2, y2 = sommets[(i + 1) % n]
-        aire += x1 * y2 - x2 * y1
-    aire = abs(aire) / 2.0
-    return aire
 
 
 """La fonction qui permet de vérifier si le joueur touche l'un des deux sparx"""
@@ -147,8 +134,7 @@ if __name__ == "__main__":
         y_bas_contour,
         x_droite_contour,
         y_haut_contour,
-        epaisseur=5,
-        couleur="blue",
+        couleur="white",
         tag="air",
     )
     ligne(382, 185, 1120, 185, couleur="red", epaisseur=3)
@@ -170,24 +156,28 @@ if __name__ == "__main__":
     fantome(750, 550)
     # ****************************************************************************************************************************
     """Joueur"""
-    tailleJoueur = 20
-    xJoueur = largeurFenetre // 2
-    yJoueur = y_bas_contour - (tailleJoueur // 2)
-    vitesseJoueur = 5
-    player(xJoueur, yJoueur, tailleJoueur)
+    xJoueur = (x_droite_contour + x_gauche_contour) // 2
+    yJoueur = y_bas_contour
+    tailleJoueur = 5
+    enTrainDeDessiner = False
     vie = 3
+
+    lstBords = [(x_gauche_contour, y_haut_contour), (x_droite_contour, y_haut_contour), (x_droite_contour, y_bas_contour), (x_gauche_contour, y_bas_contour)]
     listePositionsLignes = []
+    listePositionsPolygone = []
     # ****************************************************************************************************************************
     """Boucle du jeu"""
     while True and vie > 0:
-        if type_ev(donne_ev()) == "Quitte":
+        ev = donne_ev()
+        if type_ev(ev) == "Quitte":
             break
+        listePositionsLignes = []
         """Déplacement du Qix"""
         efface("txtAire")
         efface("fant")
         efface("player")
         fantome(x_fantome, y_fantome)
-        player(xJoueur, yJoueur, tailleJoueur)
+        joueur(xJoueur, yJoueur, tailleJoueur)
         x_fantome += speedXFantome
         y_fantome -= speedYFantome
         # Collisions du Qix
@@ -237,136 +227,65 @@ if __name__ == "__main__":
         """On vérifie si l'utilisateur a appuyé sur une touche"""
         # ****************************************************************************************************************************
         """Si la touche flèche droite est appuyée et que les autres touches ne sont pas appuyées"""
-        if touche_pressee("Right") and (
-            (xJoueur + (tailleJoueur // 2)) < x_droite_contour
-            and touche_pressee("Up") == 0
-            and touche_pressee("Down") == 0
-        ):
-            xJoueur += vitesseJoueur  # On fait déplacer le joueur à droite
-            if (
-                touche_pressee("Return")
-                and (yJoueur + (tailleJoueur // 2)) != y_bas_contour
-                and (yJoueur + (tailleJoueur // 2)) != y_haut_contour
-                and (xJoueur + (tailleJoueur // 2)) != x_gauche_contour
-                and (xJoueur + (tailleJoueur // 2)) != x_droite_contour
-            ):  # Si la touche entrée est appuyée et que le joueur est bien positionné
-                dessin(
-                    xJoueur + (tailleJoueur // 2),
-                    yJoueur + (tailleJoueur // 2),
-                    xJoueur + (tailleJoueur // 2) + vitesseJoueur,
-                    yJoueur + (tailleJoueur // 2),
-                )  # On dessine la ligne qui va suivre le joueur
-                listePositionsLignes.append(
-                    (xJoueur + (tailleJoueur // 2), yJoueur + (tailleJoueur // 2))
-                )  # On ajoute les positions des sommets des lignes afin de tracer le polygone
-                if (
-                    xJoueur < x_gauche_contour
-                    or xJoueur + tailleJoueur > x_droite_contour
-                    or yJoueur < y_haut_contour
-                    or yJoueur + tailleJoueur > y_bas_contour
-                ):
-                    if len(listePositionsLignes) > 2:
-                        if xJoueur < x_gauche_contour:
-                            listePositionsLignes.append(listePositionsLignes[0])
+        if type_ev(ev) == "Touche":
+            oldX, oldY = xJoueur, yJoueur
+            if touche(ev) == "Up" and yJoueur > y_haut_contour:
+                yJoueur -= tailleJoueur
+                if enTrainDeDessiner:
+                    dessin(oldX, oldY, oldX, yJoueur)
+                    listePositionsLignes.append((oldX, oldY, oldX, yJoueur))
+                    if (xJoueur <= x_gauche_contour or xJoueur >= x_droite_contour or yJoueur <= y_haut_contour or yJoueur >= y_bas_contour):
+                        dernierPoint = listePositionsLignes[-1][2:]
+                        listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
                         tracerPolygone(listePositionsLignes)
-                    listePositionsLignes = []
+                        listePositionsPolygone.extend(listePositionsLignes)
+                        listePositionsLignes = []
+                        enTrainDeDessiner = not enTrainDeDessiner
 
-        """Si la touche flèche gauche est appuyée"""
-        if touche_pressee("Left") and (
-            (xJoueur + (tailleJoueur // 2)) > x_gauche_contour
-            and touche_pressee("Up") == 0
-            and touche_pressee("Down") == 0
-        ):
-            xJoueur -= vitesseJoueur
-            if (
-                touche_pressee("Return")
-                and (yJoueur + (tailleJoueur // 2)) != y_bas_contour
-                and (yJoueur + (tailleJoueur // 2)) != y_haut_contour
-                and (xJoueur + (tailleJoueur // 2)) != x_gauche_contour
-                and (xJoueur + (tailleJoueur // 2)) != x_droite_contour
-            ):  # Si la touche entrée est appuyée et que le joueur est bien positionné
-                dessin(
-                    xJoueur + (tailleJoueur // 2),
-                    yJoueur + (tailleJoueur // 2),
-                    xJoueur + (tailleJoueur // 2) + vitesseJoueur,
-                    yJoueur + (tailleJoueur // 2),
-                )  # On dessine la ligne qui va suivre le joueur
-                listePositionsLignes.append(
-                    (xJoueur + (tailleJoueur // 2), yJoueur + (tailleJoueur // 2))
-                )  # On ajoute les positions des sommets des lignes afin de tracer le polygone
-                if (
-                    xJoueur < x_gauche_contour
-                    or xJoueur + tailleJoueur > x_droite_contour
-                    or yJoueur < y_haut_contour
-                    or yJoueur + tailleJoueur > y_bas_contour
-                ):
-                    if len(listePositionsLignes) > 2:
-                        if xJoueur < x_gauche_contour:
-                            listePositionsLignes.append(listePositionsLignes[0])
+            elif touche(ev) == "Down" and yJoueur < y_bas_contour:
+                yJoueur += tailleJoueur
+                if enTrainDeDessiner:
+                    dessin(oldX, oldY, oldX, yJoueur)
+                    listePositionsLignes.append((oldX, oldY, oldX, yJoueur))
+                    if (xJoueur <= x_gauche_contour or xJoueur >= x_droite_contour or yJoueur <= y_haut_contour or yJoueur >= y_bas_contour):
+                        dernierPoint = listePositionsLignes[-1][2:]
+                        listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
                         tracerPolygone(listePositionsLignes)
-                    listePositionsLignes = []
+                        listePositionsPolygone.extend(listePositionsLignes)
+                        listePositionsLignes = []
+                        enTrainDeDessiner = not enTrainDeDessiner
 
-        """Si la touche flèche haut est appuyée et que les autres touches ne sont pas appuyées"""
-        if touche_pressee("Up") and ((yJoueur + (tailleJoueur // 2)) > y_haut_contour):
-            yJoueur -= vitesseJoueur
-            if (
-                touche_pressee("Return")
-                and (yJoueur + (tailleJoueur // 2)) != y_bas_contour
-                and (yJoueur + (tailleJoueur // 2)) != y_haut_contour
-                and (xJoueur + (tailleJoueur // 2)) != x_gauche_contour
-                and (xJoueur + (tailleJoueur // 2)) != x_droite_contour
-            ):  # Si la touche entrée est appuyée et que le joueur est bien positionné
-                dessin(
-                    xJoueur + (tailleJoueur // 2),
-                    yJoueur + (tailleJoueur // 2),
-                    xJoueur + (tailleJoueur // 2),
-                    yJoueur + (tailleJoueur // 2) + vitesseJoueur,
-                )  # On dessine la ligne qui va suivre le joueur
-                listePositionsLignes.append(
-                    (xJoueur + (tailleJoueur // 2), yJoueur + (tailleJoueur // 2))
-                )  # On ajoute les positions des sommets des lignes afin de tracer le polygone
-                if (
-                    xJoueur < x_gauche_contour
-                    or xJoueur + tailleJoueur > x_droite_contour
-                    or yJoueur < y_haut_contour
-                    or yJoueur + tailleJoueur > y_bas_contour
-                ):
-                    if len(listePositionsLignes) > 2:
-                        if xJoueur < x_gauche_contour:
-                            listePositionsLignes.append(listePositionsLignes[0])
+            elif touche(ev) == "Left" and xJoueur > x_gauche_contour:
+                xJoueur -= tailleJoueur
+                if enTrainDeDessiner:
+                    dessin(oldX, oldY, xJoueur, oldY)
+                    listePositionsLignes.append((oldX, oldY, xJoueur, oldY))
+                    if (xJoueur <= x_gauche_contour or xJoueur >= x_droite_contour or yJoueur <= y_haut_contour or yJoueur >= y_bas_contour):
+                        dernierPoint = listePositionsLignes[-1][2:]
+                        listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
                         tracerPolygone(listePositionsLignes)
-                    listePositionsLignes = []
+                        listePositionsPolygone.extend(listePositionsLignes)
+                        listePositionsLignes = []
+                        enTrainDeDessiner = not enTrainDeDessiner
 
-        """Si la touche flèche bas est appuyée et que les autres touches ne sont pas appuyées"""
-        if touche_pressee("Down") and ((yJoueur + (tailleJoueur // 2)) < y_bas_contour):
-            yJoueur += vitesseJoueur
-            if (
-                touche_pressee("Return")
-                and (yJoueur + (tailleJoueur // 2)) != y_bas_contour
-                and (yJoueur + (tailleJoueur // 2)) != y_haut_contour
-                and (xJoueur + (tailleJoueur // 2)) != x_gauche_contour
-                and (xJoueur + (tailleJoueur // 2)) != x_droite_contour
-            ):  # Si la touche entrée est appuyée et que le joueur est bien positionné
-                dessin(
-                    xJoueur + (tailleJoueur // 2),
-                    yJoueur + (tailleJoueur // 2),
-                    xJoueur + (tailleJoueur // 2),
-                    yJoueur + (tailleJoueur // 2) + vitesseJoueur,
-                    )  # On dessine la ligne qui va suivre le joueur
-                listePositionsLignes.append(
-                    (xJoueur + (tailleJoueur // 2), yJoueur + (tailleJoueur // 2))
-                )  # On ajoute les positions des sommets des lignes afin de tracer le polygone
-                if (
-                    xJoueur < x_gauche_contour
-                    or xJoueur + tailleJoueur > x_droite_contour
-                    or yJoueur < y_haut_contour
-                    or yJoueur + tailleJoueur > y_bas_contour
-                ):
-                    if len(listePositionsLignes) > 2:
-                        if xJoueur < x_gauche_contour:
-                            listePositionsLignes.append(listePositionsLignes[0])
+            elif touche(ev) == "Right" and xJoueur < x_droite_contour:
+                xJoueur += tailleJoueur
+                if enTrainDeDessiner:
+                    dessin(oldX, oldY, xJoueur, oldY)
+                    listePositionsLignes.append((oldX, oldY, xJoueur, oldY))
+                    if (xJoueur <= x_gauche_contour or xJoueur >= x_droite_contour or yJoueur <= y_haut_contour or yJoueur >= y_bas_contour):
+                        dernierPoint = listePositionsLignes[-1][2:]
+                        listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
                         tracerPolygone(listePositionsLignes)
-                    listePositionsLignes = []
+                        listePositionsPolygone.extend(listePositionsLignes)
+                        listePositionsLignes = []
+                        enTrainDeDessiner = not enTrainDeDessiner
+
+            efface("joueur")
+            joueur(xJoueur, yJoueur)
+
+            if touche(ev) == "Return":
+                enTrainDeDessiner = not enTrainDeDessiner
         # ****************************************************************************************************************************
         """Si il y a contact entre joueur et sparx alors on enlève une vie et on place le joueur au milieu en bas"""
         if (
@@ -386,16 +305,6 @@ if __name__ == "__main__":
             xJoueur = largeurFenetre // 2
             yJoueur = y_bas_contour - (tailleJoueur // 2)
             continue
-
-        # ****************************************************************************************************************************
-        """On affiche l'aire des polygones"""
-        texte(
-            700,
-            100,
-            chaine=calculAire(listePositionsLignes),
-            couleur="red",
-            tag="txtAire",
-        )
 
         mise_a_jour()
 

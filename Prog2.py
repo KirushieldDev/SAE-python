@@ -20,11 +20,14 @@ x2 = 1200
 y1 = 200
 y2 = 800
 rectangle(x1, y1, x2, y2, couleur="white")
+ligne(x1, y1-30, x2, y1-30, couleur="red", epaisseur=5)
+# Logo Qix
+image(500, 100, "Qix.gif", ancrage="center", tag="im")
 
 xJoueur = (x2 + x1) // 2
 yJoueur = y2
 tailleJoueur = 5
-enTrainDeDessiner = False  # Nouvelle variable
+enTrainDeDessiner = False
 
 cercle(xJoueur, yJoueur, tailleJoueur, couleur="lime", tag="joueur")
 
@@ -48,7 +51,6 @@ while True:
                     if (xJoueur <= x1 or xJoueur >= x2 or yJoueur <= y1 or yJoueur >= y2):
                         dernierPoint = listePositionsLignes[-1][2:]
                         listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
-                        listePositionsLignes.append(lstBords[3])
                         tracerPolygone(listePositionsLignes)
                         listePositionsPolygone.extend(listePositionsLignes)
                         listePositionsLignes = []
@@ -62,7 +64,6 @@ while True:
                     if (xJoueur <= x1 or xJoueur >= x2 or yJoueur <= y1 or yJoueur >= y2):
                         dernierPoint = listePositionsLignes[-1][2:]
                         listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
-                        listePositionsLignes.append(lstBords[3])
                         tracerPolygone(listePositionsLignes)
                         listePositionsPolygone.extend(listePositionsLignes)
                         listePositionsLignes = []
@@ -76,7 +77,6 @@ while True:
                     if (xJoueur <= x1 or xJoueur >= x2 or yJoueur <= y1 or yJoueur >= y2):
                         dernierPoint = listePositionsLignes[-1][2:]
                         listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
-                        listePositionsLignes.append(lstBords[3])
                         tracerPolygone(listePositionsLignes)
                         listePositionsPolygone.extend(listePositionsLignes)
                         listePositionsLignes = []
@@ -90,7 +90,6 @@ while True:
                     if (xJoueur <= x1 or xJoueur >= x2 or yJoueur <= y1 or yJoueur >= y2):
                         dernierPoint = listePositionsLignes[-1][2:]
                         listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
-                        listePositionsLignes.append(lstBords[3])
                         tracerPolygone(listePositionsLignes)
                         listePositionsPolygone.extend(listePositionsLignes)
                         listePositionsLignes = []
