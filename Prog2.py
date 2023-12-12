@@ -1,21 +1,22 @@
 from fltk import *
 from random import randint
+import time
+invincible = False
 
 def joueur(x: int, y: int, taille=5):
-    """Fonction qui dessine le joueur"""
-    cercle(x, y, taille, couleur="lime", tag="joueur")
+    if not invincible:
+        cercle(x, y, taille, couleur="lime", tag="joueur")
+    else:
+        cercle(x, y, taille, couleur="red", tag="joueur")
 
 def dessin(ax: int, ay: int, bx: int, by: int):
-    """Fonction qui dessine les lignes qui suivent le joueur"""
     ligne(ax, ay, bx, by, couleur="white", tag="dessin")
 
 def tracerPolygone(listePositions: list):
-    """Fonction qui déssine les polygones à partir des dessins du joueur"""
     if len(listePositions) >= 3:
         polygone(listePositions, couleur="white", remplissage="green", tag="aire")
 
 def dessiner_obstacles(obstacles):
-    """Fonction qui permet de dessiner les obstacles"""
     for obstacle in obstacles:
         rectangle(obstacle[0], obstacle[1], obstacle[2], obstacle[3], couleur="gray", remplissage="gray", tag="obstacle")
 
@@ -23,7 +24,6 @@ def dessiner_obstacles(obstacles):
 
 
 def fantome(x, y):
-    """Fonction qui permet de dessiner le qix"""
     largeurFantome = 70
     hauteurFantome = 80
     image(
@@ -43,7 +43,6 @@ def fantome(x, y):
 
 
 def sparx1(x, y):
-    """Fonction qui dessine le sparx1"""
     largeurSparx = 40
     hauteurSparx = 40
     image(x, y, "Sparx.gif", largeurSparx, hauteurSparx, ancrage="center", tag="spar1")
@@ -51,7 +50,6 @@ def sparx1(x, y):
 
 
 def sparx2(x, y):
-    """Fonction qui dessine le sparx2"""
     largeurSparx = 40
     hauteurSparx = 40
     image(x, y, "Sparx.gif", largeurSparx, hauteurSparx, ancrage="center", tag="spar2")
@@ -66,7 +64,6 @@ def checkSparxPlayer(
     y_sparx2: float,
     tailleJoueur: int,
 ) -> bool:
-    """Fonction qui détecte si le joueur a touché un des sparx"""
     if (
         (xJoueur + (tailleJoueur // 2) >= x_sparx1)
         and ((xJoueur + tailleJoueur) <= (x_sparx1 + 40))
@@ -90,7 +87,6 @@ def checkSparxPlayer(
 
 
 def checkQixPlayer(xJoueur: float, yJoueur: float, xQix: float, yQix: float, tailleJoueur: int) -> bool:
-    """Fonction qui permet de savoir si le joueur a touché le qix"""
     if (
         (xJoueur + (tailleJoueur // 2) >= xQix - 80 // 2)
         and ((xJoueur + tailleJoueur) <= (xQix + 80 // 2))
@@ -101,24 +97,22 @@ def checkQixPlayer(xJoueur: float, yJoueur: float, xQix: float, yQix: float, tai
     else:
         return False
     
-# ****************************************************************************************************************************
 def dessiner_pommes():
-    """Fonction qui permet de dessiner les pommes sur l'aire du jeu"""
-    for pomme in pommes:
-        cercle(pomme[0], pomme[1], 5, couleur="red", remplissage="red", tag="pomme")
+        for pomme in pommes:
+            cercle(pomme[0], pomme[1], 5, couleur="red", remplissage="red", tag="pomme")
 
-def peut_deplacer_nouvelle_position(x: int, y: int) -> bool:
-    """Cette fonction permet de savoir si le joueur touche un obstacle ou pas"""
-    for obstacle in obstacles:
-        if obstacle[0] <= x <= obstacle[2] and obstacle[1] <= y <= obstacle[3]:
-            return False
-    return True
+def peut_deplacer_nouvelle_position(x, y):
+        
+        for obstacle in obstacles:
+            if obstacle[0] <= x <= obstacle[2] and obstacle[1] <= y <= obstacle[3]:
+                return False
+        return True
 
 def deplacer_joueur_nouvelle_position(dx, dy):
-    new_x, new_y = xJoueur + dx, yJoueur + dy
-    if x1 <= new_x <= x2 and y1 <= new_y <= y2 and peut_deplacer_nouvelle_position(new_x, new_y):
-        return new_x, new_y
-    return xJoueur, yJoueur
+        new_x, new_y = xJoueur + dx, yJoueur + dy
+        if x1 <= new_x <= x2 and y1 <= new_y <= y2 and peut_deplacer_nouvelle_position(new_x, new_y):
+            return new_x, new_y
+        return xJoueur, yJoueur
     
 if __name__ == "__main__":
 
@@ -132,14 +126,14 @@ if __name__ == "__main__":
     y1 = 200
     y2 = 800
     rectangle(x1, y1, x2, y2, couleur="white")
-    ligne(x1, y1-30, x2, y1-30, couleur="red", epaisseur=5)
+    ligne(x1+10, y1-10, x2-10, y1-10, couleur="red", epaisseur=5)
     # Logo Qix
-    image(500, 100, "Qix.gif", ancrage="center", tag="im")
+    image(480, 115, "Qix.gif", ancrage="center", tag="im")
 
     xJoueur = (x2 + x1) // 2
     yJoueur = y2
     tailleJoueur = 5
-    vitesseJoueur = 5  # Vitesse initiale
+    vitesseJoueur = 5 
     enTrainDeDessiner = False
 
     """Position du Qix"""
@@ -163,31 +157,33 @@ if __name__ == "__main__":
     listePositionsLignes = []
     listePositionsPolygone = []
 
-    # Initialiser les pommes
+
     nombre_pommes = randint(5, 8)
     pommes = [(randint(x1, x2), randint(y1, y2)) for _ in range(nombre_pommes)]
 
-    #Initialiser les obstacles
-    nombre_obstacles = randint(1, 5)
+ 
+    nombre_obstacles = randint(1, 5)  
     obstacles = []
 
     for _ in range(nombre_obstacles):
-        taille_obstacle = randint(20, 50)
+        taille_obstacle = randint(20, 50)  
         x_obstacle = randint(x1, x2 - taille_obstacle)
         y_obstacle = randint(y1, y2 - taille_obstacle)
         obstacles.append((x_obstacle, y_obstacle, x_obstacle + taille_obstacle, y_obstacle + taille_obstacle))
 
-    vie = 5
+    
+    vie = 3
+    temps_initial = 0
 
     while True and vie != 0:
         """Déplacement du Qix"""
         efface("txtAire")
         efface("fant")
-        # efface("player2")
+        
         fantome(x_fantome, y_fantome)
         joueur(xJoueur, yJoueur, tailleJoueur) 
         positionJoueur = (xJoueur,yJoueur)
-        # player2(xJoueur2, yJoueur2, tailleJoueur2)
+        
         x_fantome += speedXFantome
         y_fantome -= speedYFantome
         # Collisions du Qix
@@ -201,11 +197,7 @@ if __name__ == "__main__":
             if positionFantome==listePositionsLignes[i]:
                 speedXFantome = -speedXFantome
                 speedYFantome = -speedYFantome
-        if checkQixPlayer(xJoueur, yJoueur, x_fantome, y_fantome, tailleJoueur) == True:
-            x_sparx1 = 755
-            y_sparx1 = 200
-            x_sparx2 = 745
-            y_sparx2 = 200
+        
         # ****************************************************************************************************************************
         """Déplacement des sparx"""
         efface("spar1")
@@ -275,15 +267,18 @@ if __name__ == "__main__":
 
                 if touche(ev) == "Return":
                     enTrainDeDessiner = not enTrainDeDessiner
-
+        
+               
                 for pomme in pommes:
                     distance = ((pomme[0] - xJoueur) ** 2 + (pomme[1] - yJoueur) ** 2) ** 0.5
-                    if distance < tailleJoueur + 5:
+                    if distance < tailleJoueur + 5:  
                         pommes.remove(pomme)
-                        efface("pomme")
-                        dessiner_pommes()
-
-                # Changer la vitesse du joueur lors de l'appui sur la barre d'espace
+                        efface("pomme")  
+                        dessiner_pommes()  
+                        if invincible == False :
+                            invincible = True
+                            temps_initial_invincible = time.time()
+    
                 if touche(ev) == "space" and not enTrainDeDessiner:
                     vitesseJoueur += 5
 
@@ -296,9 +291,9 @@ if __name__ == "__main__":
             couleur="white",
             tag="txtvie",
         )
+
         
-        invincible = False
-        if not invincible:
+        if invincible == False :
             if (
                 checkSparxPlayer(
                     xJoueur, yJoueur, x_sparx1, y_sparx1, x_sparx2, y_sparx2, tailleJoueur
@@ -315,9 +310,25 @@ if __name__ == "__main__":
                 xJoueur = (x1 + x2) / 2
                 yJoueur = y2
                 listePositionsPolygone.clear()
+                x_sparx1 = 755
+                y_sparx1 = 200
+                x_sparx2 = 745
+                y_sparx2 = 200
+
+        if invincible and time.time() - temps_initial_invincible < 3:
+            texte(700, 100, chaine="Invincible", couleur="white", tag="txtinvin")
+        else:
+            invincible = False 
+            efface("txtinvin")
 
         dessiner_pommes()
         dessiner_obstacles(obstacles)
         mise_a_jour()
+
+    
+    time.sleep(0.1)
+            
+
+        
 
     ferme_fenetre()
