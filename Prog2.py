@@ -1,7 +1,9 @@
 from fltk import *
 from random import randint
 import time
+
 invincible = False
+
 
 def joueur(x: int, y: int, taille=5):
     if not invincible:
@@ -9,16 +11,28 @@ def joueur(x: int, y: int, taille=5):
     else:
         cercle(x, y, taille, couleur="red", tag="joueur")
 
+
 def dessin(ax: int, ay: int, bx: int, by: int):
     ligne(ax, ay, bx, by, couleur="white", tag="dessin")
+
 
 def tracerPolygone(listePositions: list):
     if len(listePositions) >= 3:
         polygone(listePositions, couleur="white", remplissage="green", tag="aire")
 
+
 def dessiner_obstacles(obstacles):
     for obstacle in obstacles:
-        rectangle(obstacle[0], obstacle[1], obstacle[2], obstacle[3], couleur="gray", remplissage="gray", tag="obstacle")
+        rectangle(
+            obstacle[0],
+            obstacle[1],
+            obstacle[2],
+            obstacle[3],
+            couleur="gray",
+            remplissage="gray",
+            tag="obstacle",
+        )
+
 
 """Création du Qix"""
 
@@ -55,6 +69,7 @@ def sparx2(x, y):
     image(x, y, "Sparx.gif", largeurSparx, hauteurSparx, ancrage="center", tag="spar2")
     return x, y
 
+
 def checkSparxPlayer(
     xJoueur: float,
     yJoueur: float,
@@ -81,12 +96,15 @@ def checkSparxPlayer(
     else:
         return False
 
+
 # ****************************************************************************************************************************
 
 """La fonction qui permet de vérifier si le joueur touche le qix"""
 
 
-def checkQixPlayer(xJoueur: float, yJoueur: float, xQix: float, yQix: float, tailleJoueur: int) -> bool:
+def checkQixPlayer(
+    xJoueur: float, yJoueur: float, xQix: float, yQix: float, tailleJoueur: int
+) -> bool:
     if (
         (xJoueur + (tailleJoueur // 2) >= xQix - 80 // 2)
         and ((xJoueur + tailleJoueur) <= (xQix + 80 // 2))
@@ -96,26 +114,32 @@ def checkQixPlayer(xJoueur: float, yJoueur: float, xQix: float, yQix: float, tai
         return True
     else:
         return False
-    
+
+
 def dessiner_pommes():
-        for pomme in pommes:
-            cercle(pomme[0], pomme[1], 5, couleur="red", remplissage="red", tag="pomme")
+    for pomme in pommes:
+        cercle(pomme[0], pomme[1], 5, couleur="red", remplissage="red", tag="pomme")
+
 
 def peut_deplacer_nouvelle_position(x, y):
-        
-        for obstacle in obstacles:
-            if obstacle[0] <= x <= obstacle[2] and obstacle[1] <= y <= obstacle[3]:
-                return False
-        return True
+    for obstacle in obstacles:
+        if obstacle[0] <= x <= obstacle[2] and obstacle[1] <= y <= obstacle[3]:
+            return False
+    return True
+
 
 def deplacer_joueur_nouvelle_position(dx, dy):
-        new_x, new_y = xJoueur + dx, yJoueur + dy
-        if x1 <= new_x <= x2 and y1 <= new_y <= y2 and peut_deplacer_nouvelle_position(new_x, new_y):
-            return new_x, new_y
-        return xJoueur, yJoueur
-    
-if __name__ == "__main__":
+    new_x, new_y = xJoueur + dx, yJoueur + dy
+    if (
+        x1 <= new_x <= x2
+        and y1 <= new_y <= y2
+        and peut_deplacer_nouvelle_position(new_x, new_y)
+    ):
+        return new_x, new_y
+    return xJoueur, yJoueur
 
+
+if __name__ == "__main__":
     largeurFenetre = 1500
     hauteurFenetre = 900
 
@@ -126,14 +150,14 @@ if __name__ == "__main__":
     y1 = 200
     y2 = 800
     rectangle(x1, y1, x2, y2, couleur="white")
-    ligne(x1+10, y1-10, x2-10, y1-10, couleur="red", epaisseur=5)
+    ligne(x1 + 10, y1 - 10, x2 - 10, y1 - 10, couleur="red", epaisseur=5)
     # Logo Qix
     image(480, 115, "Qix.gif", ancrage="center", tag="im")
 
     xJoueur = (x2 + x1) // 2
     yJoueur = y2
     tailleJoueur = 5
-    vitesseJoueur = 5 
+    vitesseJoueur = 5
     enTrainDeDessiner = False
 
     """Position du Qix"""
@@ -141,11 +165,11 @@ if __name__ == "__main__":
     y_fantome = (y1 + y2) // 2
     speedXFantome = 3
     speedYFantome = 1
-    positionFantome=(x_fantome,y_fantome)
+    positionFantome = (x_fantome, y_fantome)
     # ****************************************************************************************************************************
     """Position des sparx"""
     x_sparx1 = 750
-    y_sparx1 = y1 
+    y_sparx1 = y1
     x_sparx2 = 750
     y_sparx2 = y1
     speedSparx = 3
@@ -157,21 +181,25 @@ if __name__ == "__main__":
     listePositionsLignes = []
     listePositionsPolygone = []
 
-
     nombre_pommes = randint(5, 8)
     pommes = [(randint(x1, x2), randint(y1, y2)) for _ in range(nombre_pommes)]
 
- 
-    nombre_obstacles = randint(1, 5)  
+    nombre_obstacles = randint(1, 5)
     obstacles = []
 
     for _ in range(nombre_obstacles):
-        taille_obstacle = randint(20, 50)  
+        taille_obstacle = randint(20, 50)
         x_obstacle = randint(x1, x2 - taille_obstacle)
         y_obstacle = randint(y1, y2 - taille_obstacle)
-        obstacles.append((x_obstacle, y_obstacle, x_obstacle + taille_obstacle, y_obstacle + taille_obstacle))
+        obstacles.append(
+            (
+                x_obstacle,
+                y_obstacle,
+                x_obstacle + taille_obstacle,
+                y_obstacle + taille_obstacle,
+            )
+        )
 
-    
     vie = 3
     temps_initial = 0
 
@@ -179,25 +207,25 @@ if __name__ == "__main__":
         """Déplacement du Qix"""
         efface("txtAire")
         efface("fant")
-        
+
         fantome(x_fantome, y_fantome)
-        joueur(xJoueur, yJoueur, tailleJoueur) 
-        positionJoueur = (xJoueur,yJoueur)
-        
+        joueur(xJoueur, yJoueur, tailleJoueur)
+        positionJoueur = (xJoueur, yJoueur)
+
         x_fantome += speedXFantome
         y_fantome -= speedYFantome
         # Collisions du Qix
         if x_fantome >= x2 - 35 or x_fantome <= x1 + 35:
             speedXFantome = -speedXFantome
 
-        if y_fantome >= y2- 40 or y_fantome <= y1 + 40:
+        if y_fantome >= y2 - 40 or y_fantome <= y1 + 40:
             speedYFantome = -speedYFantome
-        
+
         for i in range(len(listePositionsLignes)):
-            if positionFantome==listePositionsLignes[i]:
+            if positionFantome == listePositionsLignes[i]:
                 speedXFantome = -speedXFantome
                 speedYFantome = -speedYFantome
-        
+
         # ****************************************************************************************************************************
         """Déplacement des sparx"""
         efface("spar1")
@@ -243,18 +271,28 @@ if __name__ == "__main__":
                 oldX, oldY = xJoueur, yJoueur
 
                 if touche(ev) == "Up":
-                    xJoueur, yJoueur = deplacer_joueur_nouvelle_position(0, -vitesseJoueur)
+                    xJoueur, yJoueur = deplacer_joueur_nouvelle_position(
+                        0, -vitesseJoueur
+                    )
                 elif touche(ev) == "Down":
-                    xJoueur, yJoueur = deplacer_joueur_nouvelle_position(0, vitesseJoueur)
+                    xJoueur, yJoueur = deplacer_joueur_nouvelle_position(
+                        0, vitesseJoueur
+                    )
                 elif touche(ev) == "Left":
-                    xJoueur, yJoueur = deplacer_joueur_nouvelle_position(-vitesseJoueur, 0)
+                    xJoueur, yJoueur = deplacer_joueur_nouvelle_position(
+                        -vitesseJoueur, 0
+                    )
                 elif touche(ev) == "Right":
-                    xJoueur, yJoueur = deplacer_joueur_nouvelle_position(vitesseJoueur, 0)
+                    xJoueur, yJoueur = deplacer_joueur_nouvelle_position(
+                        vitesseJoueur, 0
+                    )
 
-                if enTrainDeDessiner and peut_deplacer_nouvelle_position(xJoueur, yJoueur):
+                if enTrainDeDessiner and peut_deplacer_nouvelle_position(
+                    xJoueur, yJoueur
+                ):
                     dessin(oldX, oldY, xJoueur, yJoueur)
                     listePositionsLignes.append((oldX, oldY, xJoueur, yJoueur))
-                    if (xJoueur <= x1 or xJoueur >= x2 or yJoueur <= y1 or yJoueur >= y2):
+                    if xJoueur <= x1 or xJoueur >= x2 or yJoueur <= y1 or yJoueur >= y2:
                         dernierPoint = listePositionsLignes[-1][2:]
                         listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
                         tracerPolygone(listePositionsLignes)
@@ -267,22 +305,23 @@ if __name__ == "__main__":
 
                 if touche(ev) == "Return":
                     enTrainDeDessiner = not enTrainDeDessiner
-        
-               
+
                 for pomme in pommes:
-                    distance = ((pomme[0] - xJoueur) ** 2 + (pomme[1] - yJoueur) ** 2) ** 0.5
-                    if distance < tailleJoueur + 5:  
+                    distance = (
+                        (pomme[0] - xJoueur) ** 2 + (pomme[1] - yJoueur) ** 2
+                    ) ** 0.5
+                    if distance < tailleJoueur + 5:
                         pommes.remove(pomme)
-                        efface("pomme")  
-                        dessiner_pommes()  
-                        if invincible == False :
+                        efface("pomme")
+                        dessiner_pommes()
+                        if invincible == False:
                             invincible = True
                             temps_initial_invincible = time.time()
-    
+
                 if touche(ev) == "space" and not enTrainDeDessiner:
                     vitesseJoueur += 5
 
-        '''On affiche le nombre de vies'''
+        """On affiche le nombre de vies"""
         efface("txtvie")
         texte(
             700,
@@ -292,11 +331,16 @@ if __name__ == "__main__":
             tag="txtvie",
         )
 
-        
-        if invincible == False :
+        if invincible == False:
             if (
                 checkSparxPlayer(
-                    xJoueur, yJoueur, x_sparx1, y_sparx1, x_sparx2, y_sparx2, tailleJoueur
+                    xJoueur,
+                    yJoueur,
+                    x_sparx1,
+                    y_sparx1,
+                    x_sparx2,
+                    y_sparx2,
+                    tailleJoueur,
                 )
                 == True
             ):
@@ -305,7 +349,10 @@ if __name__ == "__main__":
                 yJoueur = y2
                 listePositionsPolygone.clear()
 
-            if checkQixPlayer(xJoueur, yJoueur, x_fantome, y_fantome, tailleJoueur) == True:
+            if (
+                checkQixPlayer(xJoueur, yJoueur, x_fantome, y_fantome, tailleJoueur)
+                == True
+            ):
                 vie -= 1
                 xJoueur = (x1 + x2) / 2
                 yJoueur = y2
@@ -318,17 +365,13 @@ if __name__ == "__main__":
         if invincible and time.time() - temps_initial_invincible < 3:
             texte(700, 100, chaine="Invincible", couleur="white", tag="txtinvin")
         else:
-            invincible = False 
+            invincible = False
             efface("txtinvin")
 
         dessiner_pommes()
         dessiner_obstacles(obstacles)
         mise_a_jour()
 
-    
     time.sleep(0.1)
-            
-
-        
 
     ferme_fenetre()
