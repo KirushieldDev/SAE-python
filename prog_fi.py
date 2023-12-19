@@ -90,10 +90,14 @@ if __name__ == "__main__":
                             dernierPoint = listePositionsLignes[-1][2:]
                             listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
                             #Remplissage du coin en haut à gauche
-                            if (listePositionsLignes[0][0] == x1 and listePositionsLignes[0][1] > y1 or listePositionsLignes[0][1] < y2 and listePositionsLignes[-1][1] == y1 and listePositionsLignes[-1][0] > x1 or listePositionsLignes[-1][0] < x2)  :
+                            if (listePositionsLignes[0][0] == x1 and listePositionsLignes[0][1] > y1 
+                                or listePositionsLignes[0][1] < y2 and listePositionsLignes[-1][1] == y1 and listePositionsLignes[-1][0] > x1 
+                                or listePositionsLignes[-1][0] < x2)  :
                                     listePositionsLignes.append((x1, y1))
                             #Remplissage du coin en haut à droite
-                            if (listePositionsLignes[0][0] == x2 and listePositionsLignes[0][1] > y1 or listePositionsLignes[0][1] < y2 and listePositionsLignes[-1][1] == y1 and listePositionsLignes[-1][0] > x1 or listePositionsLignes[-1][0] < x2)  :
+                            if (listePositionsLignes[0][0] == x2 and listePositionsLignes[0][1] > y1 
+                                or listePositionsLignes[0][1] < y2 and listePositionsLignes[-1][1] == y1 and listePositionsLignes[-1][0] > x1 
+                                or listePositionsLignes[-1][0] < x2)  :
                                     listePositionsLignes.append((x2,y1))
                 
                             tracerPolygone(listePositionsLignes)
@@ -111,10 +115,14 @@ if __name__ == "__main__":
                             dernierPoint = listePositionsLignes[-1][2:]
                             listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
                             #Remplissage du coin en bas à gauche
-                            if (listePositionsLignes[0][0] == x1 and listePositionsLignes[0][1] > y1 or listePositionsLignes[0][1] < y2 and listePositionsLignes[-1][1] == y2 and listePositionsLignes[-1][0] > x1 or listePositionsLignes[-1][0] < x2)  :
+                            if (listePositionsLignes[0][0] == x1 and listePositionsLignes[0][1] > y1 
+                                or listePositionsLignes[0][1] < y2 and listePositionsLignes[-1][1] == y2 and listePositionsLignes[-1][0] > x1 
+                                or listePositionsLignes[-1][0] < x2)  :
                                     listePositionsLignes.append((x1,y2))
                             #Remplissage du coin en bas à droite
-                            if (listePositionsLignes[0][0] == x2 and listePositionsLignes[0][1] > y1 or listePositionsLignes[0][1] < y2 and listePositionsLignes[-1][1] == y2 and listePositionsLignes[-1][0] > x1 or listePositionsLignes[-1][0] < x2)  :
+                            if (listePositionsLignes[0][0] == x2 and listePositionsLignes[0][1] > y1 
+                                or listePositionsLignes[0][1] < y2 and listePositionsLignes[-1][1] == y2 and listePositionsLignes[-1][0] > x1 
+                                or listePositionsLignes[-1][0] < x2)  :
                                     listePositionsLignes.append((x2,y2))
         
                             tracerPolygone(listePositionsLignes)
@@ -132,10 +140,14 @@ if __name__ == "__main__":
                             dernierPoint = listePositionsLignes[-1][2:]
                             listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
                             #Remplissage du coin en haut à gauche
-                            if (listePositionsLignes[0][1] == y1 and listePositionsLignes[0][0] >= x1 or listePositionsLignes[0][0] <= x2 and listePositionsLignes[-1][0] == x1 and listePositionsLignes[-1][1] >= y1 or listePositionsLignes[-1][1] <= y2)  :
+                            if (listePositionsLignes[0][1] == y1 and listePositionsLignes[0][0] >= x1 
+                                or listePositionsLignes[0][0] <= x2 and listePositionsLignes[-1][0] == x1 and listePositionsLignes[-1][1] >= y1 
+                                or listePositionsLignes[-1][1] <= y2)  :
                                     listePositionsLignes.append((x1, y1))
                             #Remplissage du coin en bas à gauche
-                            if (listePositionsLignes[0][1] == y2 and listePositionsLignes[0][0] > x1 or listePositionsLignes[0][0] < x2 and listePositionsLignes[-1][0] == x1 and listePositionsLignes[-1][1] > y1 or listePositionsLignes[-1][1] < y2)  :
+                            if (listePositionsLignes[0][1] == y2 and listePositionsLignes[0][0] > x1 
+                                or listePositionsLignes[0][0] < x2 and listePositionsLignes[-1][0] == x1 and listePositionsLignes[-1][1] > y1 
+                                or listePositionsLignes[-1][1] < y2)  :
                                     listePositionsLignes.append((x1,y2))
                         
                             tracerPolygone(listePositionsLignes)
@@ -153,10 +165,14 @@ if __name__ == "__main__":
                             dernierPoint = listePositionsLignes[-1][2:]
                             listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
                             #Remplissage du coin en haut à droite
-                            if (listePositionsLignes[0][1] == y1 and listePositionsLignes[0][0] > x1 or listePositionsLignes[0][0] < x2 and listePositionsLignes[-1][0] == x2 and listePositionsLignes[-1][1] > y1 or listePositionsLignes[-1][1] < y2)  :
+                            if (listePositionsLignes[0][1] == y1 and listePositionsLignes[0][0] > x1 
+                                or listePositionsLignes[0][0] < x2 and listePositionsLignes[-1][0] == x2 and listePositionsLignes[-1][1] > y1 
+                                or listePositionsLignes[-1][1] < y2)  :
                                     listePositionsLignes.append((x2,y1))
                             #Remplissage du coin en bas à droite
-                            if (listePositionsLignes[0][1] == y2 and listePositionsLignes[0][0] > x1 or listePositionsLignes[0][0] < x2 and listePositionsLignes[-1][0] == x2 and listePositionsLignes[-1][1] > y1 or listePositionsLignes[-1][1] < y2)  :
+                            if (listePositionsLignes[0][1] == y2 and listePositionsLignes[0][0] > x1 
+                                or listePositionsLignes[0][0] < x2 and listePositionsLignes[-1][0] == x2 and listePositionsLignes[-1][1] > y1 
+                                or listePositionsLignes[-1][1] < y2)  :
                                     listePositionsLignes.append((x2,y2))
                             
                             tracerPolygone(listePositionsLignes)
