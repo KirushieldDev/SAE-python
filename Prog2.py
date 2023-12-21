@@ -16,7 +16,75 @@ def dessin(ax: int, ay: int, bx: int, by: int):
     ligne(ax, ay, bx, by, couleur="white", tag="dessin")
 
 
-def tracerPolygone(listePositions: list):
+def tracerPolygone(listePositions: list, start_position: tuple, end_position: tuple):
+    if (
+        start_position[0] > x1
+        and start_position[0] < x2
+        and start_position[1] == y2
+        and end_position[0] == x1
+        and end_position[1] > y1
+        and end_position[1] < y2
+    ) or (
+        start_position[0] == x1
+        and start_position[1] > y1
+        and start_position[1] < y2
+        and end_position[0] > x1
+        and end_position[0] < x2
+        and end_position[1] == y2
+    ):
+        listePositions.append((x1, y2))
+
+    if (
+        start_position[0] == x1
+        and start_position[1] > y1
+        and start_position[1] < y2
+        and end_position[0] > x1
+        and end_position[0] < x2
+        and end_position[1] == y1
+    ) or (
+        start_position[0] > x1
+        and start_position[0] < x2
+        and start_position[1] == y1
+        and end_position[0] == x1
+        and end_position[1] > y1
+        and end_position[1] < y2
+    ):
+        listePositions.append((x1, y1))
+
+    if (
+        start_position[0] > x1
+        and start_position[0] < x2
+        and start_position[1] == y1
+        and end_position[0] == x2
+        and end_position[1] > y1
+        and end_position[1] < y2
+    ) or (
+        start_position[0] == x2
+        and start_position[1] > y1
+        and start_position[1] < y2
+        and end_position[0] > x1
+        and end_position[0] < x2
+        and end_position[1] == y1
+    ):
+        listePositions.append((x2, y1))
+
+    if (
+        start_position[0] == x2
+        and start_position[1] > y1
+        and start_position[1] < y2
+        and end_position[0] > x1
+        and end_position[0] < x2
+        and end_position[1] == y2
+    ) or (
+        start_position[0] > x1
+        and start_position[0] < x2
+        and start_position[1] == y2
+        and end_position[0] == x2
+        and end_position[1] > y1
+        and end_position[1] < y2
+    ):
+        listePositions.append((x2, y2))
+
     if len(listePositions) >= 3:
         polygone(listePositions, couleur="white", remplissage="green", tag="aire")
 
@@ -145,6 +213,7 @@ if __name__ == "__main__":
 
     cree_fenetre(largeurFenetre, hauteurFenetre)
     rectangle(0, 0, largeurFenetre, hauteurFenetre, remplissage="black")
+    global x1, x2, y1, y2
     x1 = 300
     x2 = 1200
     y1 = 200
@@ -293,9 +362,12 @@ if __name__ == "__main__":
                     dessin(oldX, oldY, xJoueur, yJoueur)
                     listePositionsLignes.append((oldX, oldY, xJoueur, yJoueur))
                     if xJoueur <= x1 or xJoueur >= x2 or yJoueur <= y1 or yJoueur >= y2:
+                        end_position = (xJoueur, yJoueur)
                         dernierPoint = listePositionsLignes[-1][2:]
                         listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
-                        tracerPolygone(listePositionsLignes)
+                        tracerPolygone(
+                            listePositionsLignes, start_position, end_position
+                        )
                         listePositionsPolygone.extend(listePositionsLignes)
                         listePositionsLignes = []
                         enTrainDeDessiner = not enTrainDeDessiner
@@ -304,6 +376,7 @@ if __name__ == "__main__":
                 joueur(xJoueur, yJoueur)
 
                 if touche(ev) == "Return":
+                    start_position = (xJoueur, yJoueur)
                     enTrainDeDessiner = not enTrainDeDessiner
 
                 for pomme in pommes:
