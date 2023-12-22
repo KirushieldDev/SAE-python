@@ -195,7 +195,7 @@ def peut_deplacer_nouvelle_position(x, y):
     return True
 
 
-def deplacer_joueur_nouvelle_position(dx, dy):
+def deplacer_joueur(dx, dy):
     new_x, new_y = xJoueur + dx, yJoueur + dy
     if (
         x1 <= new_x <= x2
@@ -339,19 +339,19 @@ if __name__ == "__main__":
                 oldX, oldY = xJoueur, yJoueur
 
                 if touche(ev) == "Up":
-                    xJoueur, yJoueur = deplacer_joueur_nouvelle_position(
+                    xJoueur, yJoueur = deplacer_joueur(
                         0, -vitesseJoueur
                     )
                 elif touche(ev) == "Down":
-                    xJoueur, yJoueur = deplacer_joueur_nouvelle_position(
+                    xJoueur, yJoueur = deplacer_joueur(
                         0, vitesseJoueur
                     )
                 elif touche(ev) == "Left":
-                    xJoueur, yJoueur = deplacer_joueur_nouvelle_position(
+                    xJoueur, yJoueur = deplacer_joueur(
                         -vitesseJoueur, 0
                     )
                 elif touche(ev) == "Right":
-                    xJoueur, yJoueur = deplacer_joueur_nouvelle_position(
+                    xJoueur, yJoueur = deplacer_joueur(
                         vitesseJoueur, 0
                     )
 
