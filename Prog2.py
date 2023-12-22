@@ -434,7 +434,7 @@ if __name__ == "__main__":
                 x_sparx2 = 745
                 y_sparx2 = 200
 
-        if invincible and time.time() - temps_initial_invincible < 3:
+        if invincible and time.time() - temps_initial_invincible <= 3:
             texte(700, 100, chaine="Invincible", couleur="white", tag="txtinvin")
         else:
             invincible = False
