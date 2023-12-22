@@ -444,6 +444,4 @@ if __name__ == "__main__":
         dessiner_obstacles(obstacles)
         mise_a_jour()
 
-    time.sleep(0.1)
-
     ferme_fenetre()
