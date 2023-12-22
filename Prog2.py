@@ -85,8 +85,7 @@ def tracerPolygone(listePositions: list, start_position: tuple, end_position: tu
     ):
         listePositions.append((x2, y2))
 
-    if len(listePositions) >= 3:
-        polygone(listePositions, couleur="white", remplissage="green", tag="aire")
+    polygone(listePositions, couleur="white", remplissage="green", tag="aire")
 
 
 def dessiner_obstacles(obstacles):
