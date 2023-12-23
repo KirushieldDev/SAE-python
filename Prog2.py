@@ -1,18 +1,24 @@
 from fltk import *
-from random import randint
+from random import *
 import time
 
 invincible = False
 
 
-def joueur(x: int, y: int, taille=5):
+def joueur(x: int, y: int, taille=5) -> None:
+    """
+    Fonction qui permet de dessiner le joueur à partir des coordonnées
+    """
     if invincible:
         cercle(x, y, taille, couleur="lime", tag="joueur")
     else:
         cercle(x, y, taille, couleur="orange", tag="joueur")
 
 
-def dessin(ax: int, ay: int, bx: int, by: int):
+def dessin(ax: int, ay: int, bx: int, by: int) -> None:
+    """
+    Fonction qui permet de dessiner les lignes tracées par le joueur
+    """
     ligne(ax, ay, bx, by, couleur="white", tag="dessin")
 
 
@@ -89,10 +95,13 @@ def tracerPolygone(listePositions: list, start_position: tuple, end_position: tu
     ):
         listePositions.append((x2, y2))
 
-    polygone(listePositions, couleur="white", remplissage="blue", tag="aire")
+    polygone(listePositions, couleur="white", remplissage = "green", tag="aire")
 
 
-def dessiner_obstacles(obstacles):
+def dessiner_obstacles(obstacles: list) -> None:
+    """
+    Fonction qui dessine les obstacles à partir de la liste obstacles
+    """
     for obstacle in obstacles:
         rectangle(
             obstacle[0],
@@ -105,10 +114,10 @@ def dessiner_obstacles(obstacles):
         )
 
 
-"""Création du Qix"""
-
-
-def fantome(x, y):
+def fantome(x: int, y: int) -> None:
+    """
+    Fonction qui dessine le fantôme
+    """
     largeurFantome = 70
     hauteurFantome = 80
     image(
@@ -120,25 +129,26 @@ def fantome(x, y):
         ancrage="center",
         tag="fant",
     )
-    return x, y
 
 
 # ****************************************************************************************************************************
-"""Création des sparx"""
 
-
-def sparx1(x, y):
+def sparx1(x: int, y: int) -> None:
+    """
+    Fonction qui dessine un sparx
+    """
     largeurSparx = 40
     hauteurSparx = 40
     image(x, y, "Sparx.gif", largeurSparx, hauteurSparx, ancrage="center", tag="spar1")
-    return x, y
 
 
-def sparx2(x, y):
+def sparx2(x: int, y: int) -> None:
+    """
+    Fonction qui dessine un sparx
+    """
     largeurSparx = 40
     hauteurSparx = 40
     image(x, y, "Sparx.gif", largeurSparx, hauteurSparx, ancrage="center", tag="spar2")
-    return x, y
 
 
 def checkSparxPlayer(
@@ -150,6 +160,10 @@ def checkSparxPlayer(
     y_sparx2: float,
     tailleJoueur: int,
 ) -> bool:
+    """
+    Fonction qui vérifie si le joueur a touché un des sparx
+    Renvoie True si le joueur a touché et False sinon
+    """
     if (
         (xJoueur + (tailleJoueur // 2) >= x_sparx1)
         and ((xJoueur + tailleJoueur) <= (x_sparx1 + 40))
@@ -176,6 +190,9 @@ def checkSparxPlayer(
 def checkQixPlayer(
     xJoueur: float, yJoueur: float, xQix: float, yQix: float, tailleJoueur: int
 ) -> bool:
+    """
+    Fontion qui renvoie True si le joueur a touché le qix et False sinon
+    """
     if (
         (xJoueur + (tailleJoueur // 2) >= xQix - 80 // 2)
         and ((xJoueur + tailleJoueur) <= (xQix + 80 // 2))
@@ -187,19 +204,29 @@ def checkQixPlayer(
         return False
 
 
-def dessiner_pommes():
+def dessiner_pommes() -> None:
+    """
+    Fonction qui dessine les pommes
+    """
     for pomme in pommes:
         cercle(pomme[0], pomme[1], 5, couleur="red", remplissage="red", tag="pomme")
 
 
-def peut_deplacer_nouvelle_position(x, y):
+def peut_deplacer_nouvelle_position(x: int, y: int) -> bool:
+    """
+    Fonction qui détecte si il y a contacte entre le joueur et l'obstacle
+    True si il y a contate et False sinon
+    """
     for obstacle in obstacles:
         if obstacle[0] <= x <= obstacle[2] and obstacle[1] <= y <= obstacle[3]:
             return False
     return True
 
 
-def deplacer_joueur(dx, dy):
+def deplacer_joueur(dx: int, dy: int) -> int:
+    """
+    Fonction qui permet de faire déplacer le joueur
+    """
     new_x, new_y = xJoueur + dx, yJoueur + dy
     if (
         x1 <= new_x <= x2
