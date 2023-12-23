@@ -6,17 +6,21 @@ invincible = False
 
 
 def joueur(x: int, y: int, taille=5):
-    if not invincible:
+    if invincible:
         cercle(x, y, taille, couleur="lime", tag="joueur")
     else:
-        cercle(x, y, taille, couleur="red", tag="joueur")
+        cercle(x, y, taille, couleur="orange", tag="joueur")
 
 
 def dessin(ax: int, ay: int, bx: int, by: int):
     ligne(ax, ay, bx, by, couleur="white", tag="dessin")
 
 
-def tracerPolygone(listePositions: list, start_position: tuple, end_position: tuple):
+def tracerPolygone(listePositions: list, start_position: tuple, end_position: tuple) -> None:
+    """
+    Fonction qui permet de dessiner le polygone à partir des dessins du joueur
+    en vérifiant les positions de départ et d'arrivée du joueur
+    """
     if (
         start_position[0] > x1
         and start_position[0] < x2
@@ -85,7 +89,7 @@ def tracerPolygone(listePositions: list, start_position: tuple, end_position: tu
     ):
         listePositions.append((x2, y2))
 
-    polygone(listePositions, couleur="white", remplissage="green", tag="aire")
+    polygone(listePositions, couleur="white", remplissage="blue", tag="aire")
 
 
 def dessiner_obstacles(obstacles):
