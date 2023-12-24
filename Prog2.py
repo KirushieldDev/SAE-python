@@ -10,9 +10,9 @@ def joueur(x: int, y: int, taille=5) -> None:
     Fonction qui permet de dessiner le joueur à partir des coordonnées
     """
     if invincible:
-        cercle(x, y, taille, couleur="lime", tag="joueur")
+        cercle(x, y, taille, couleur="lime", epaisseur = 2, tag="joueur")
     else:
-        cercle(x, y, taille, couleur="orange", tag="joueur")
+        cercle(x, y, taille, couleur="orange", epaisseur = 2, tag="joueur")
 
 
 def dessin(ax: int, ay: int, bx: int, by: int) -> None:
