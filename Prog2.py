@@ -274,7 +274,7 @@ if __name__ == "__main__":
     speedSparx = 3
     fantome(750, 550)
 
-    cercle(xJoueur, yJoueur, tailleJoueur, couleur="lime", tag="joueur")
+    joueur(xJoueur, yJoueur)
 
     lstBords = [(x1, y1), (x2, y1), (x2, y2), (x1, y2)]
     listePositionsLignes = []
