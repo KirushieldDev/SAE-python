@@ -16,10 +16,172 @@ def dessin(ax: int, ay: int, bx: int, by: int):
     ligne(ax, ay, bx, by, couleur="white", tag="dessin")
 
 
-def tracerPolygone(listePositions: list):
-    if len(listePositions) >= 3:
-        polygone(listePositions, couleur="white", remplissage="green", tag="aire")
+def tracerPolygone(listePositions: list, start_position: tuple, end_position: tuple,x_fantome: int,y_fantome: int):
+    fantome_est_dedans = intersection_test(x_fantome,y_fantome,listePositions)
+    if (
+        start_position[0] > x1
+        and start_position[0] < x2
+        and start_position[1] == y2
+        and end_position[0] == x1
+        and end_position[1] > y1
+        and end_position[1] < y2
+    ) :
+        if fantome_est_dedans is False :
+            listePositions.append((x1, y2))
+        else :
+            listePositions.append((x1,y1))
+            listePositions.append((x2,y1))
+            listePositions.append((x2,y2))
+        
+    if (
+        start_position[0] == x1
+        and start_position[1] > y1
+        and start_position[1] < y2
+        and end_position[0] > x1
+        and end_position[0] < x2
+        and end_position[1] == y2
+    ): 
+        if fantome_est_dedans is False :
+            listePositions.append((x1, y2))
+        else :
+            listePositions.append((x2,y2))
+            listePositions.append((x2,y1))
+            listePositions.append((x1,y1))
+        
 
+    if (
+        start_position[0] == x1
+        and start_position[1] > y1
+        and start_position[1] < y2
+        and end_position[0] > x1
+        and end_position[0] < x2
+        and end_position[1] == y1
+    ) : 
+        if fantome_est_dedans is False :
+            listePositions.append((x1,y1))
+        else :
+            listePositions.append((x2,y1))
+            listePositions.append((x2,y2))
+            listePositions.append((x1, y2))
+    if (
+        start_position[0] > x1
+        and start_position[0] < x2
+        and start_position[1] == y1
+        and end_position[0] == x1
+        and end_position[1] > y1
+        and end_position[1] < y2
+    ):
+        if fantome_est_dedans is False :
+            listePositions.append((x1,y1))
+        else :
+            listePositions.append((x1, y2))
+            listePositions.append((x2,y2))
+            listePositions.append((x2,y1))
+    if (
+        start_position[0] > x1
+        and start_position[0] < x2
+        and start_position[1] == y1
+        and end_position[0] == x2
+        and end_position[1] > y1
+        and end_position[1] < y2
+    ) :
+        if fantome_est_dedans is False :
+            listePositions.append((x2,y1))
+        else :
+            listePositions.append((x2,y2))
+            listePositions.append((x1, y2))
+            listePositions.append((x1,y1))
+    if (
+        start_position[0] == x2
+        and start_position[1] > y1
+        and start_position[1] < y2
+        and end_position[0] > x1
+        and end_position[0] < x2
+        and end_position[1] == y1
+    ):
+        if fantome_est_dedans is False :
+            listePositions.append((x2,y1))
+        else :
+            listePositions.append((x1,y1))
+            listePositions.append((x1, y2))
+            listePositions.append((x2,y2))
+
+    if (
+        start_position[0] == x2
+        and start_position[1] > y1
+        and start_position[1] < y2
+        and end_position[0] > x1
+        and end_position[0] < x2
+        and end_position[1] == y2
+    ) :
+        if fantome_est_dedans is False :
+            listePositions.append((x2,y2))
+        else :
+            listePositions.append((x1, y2))
+            listePositions.append((x1,y1))
+            listePositions.append((x2,y1))
+    
+    if (
+        start_position[0] > x1
+        and start_position[0] < x2
+        and start_position[1] == y2
+        and end_position[0] == x2
+        and end_position[1] > y1
+        and end_position[1] < y2
+    ):
+        if fantome_est_dedans is False :
+            listePositions.append((x2,y2))
+        else :
+            listePositions.append((x2,y1))
+            listePositions.append((x1,y1))
+            listePositions.append((x1, y2))
+
+    if (
+        start_position[0] == x2
+        and start_position[1] > y1
+        and start_position[1] < y2
+        and end_position[1] > y1
+        and end_position[1] < y2
+        and end_position[0] == x1
+    ) :
+        if fantome_est_dedans is False :
+            listePositions.append((x1,y1))
+            listePositions.append((x2,y1))
+        else :
+            listePositions.append((x1, y2))
+            listePositions.append((x2,y2))
+    
+    if (
+        start_position[1] > y1
+        and start_position[1] < y2
+        and start_position[0] == x1
+        and end_position[0] == x2
+        and end_position[1] > y1
+        and end_position[1] < y2
+    ):
+        if fantome_est_dedans is False :
+            listePositions.append((x2,y1))
+            listePositions.append((x1,y1))
+        else :
+            listePositions.append((x2,y2))
+            listePositions.append((x1, y2))
+
+    polygone(listePositions, couleur="white", remplissage="green", tag="aire")
+    
+    
+def intersection_test(x, y, polygone):
+    intersections = 0
+    for i in range(len(polygone)):
+        x1, y1 = polygone[i][2],polygone[i][3]
+        x2, y2 = polygone[(i + 1) % len(polygone)][2],polygone[(i + 1) % len(polygone)][3]
+        
+        # Vérifie si le point se trouve à gauche du segment de bord
+        if y > min(y1, y2) and y <= max(y1, y2) and x <= max(x1, x2) and y1 != y2:
+            intersection_x = (y - y1) * (x2 - x1) / (y2 - y1) + x1
+            if x1 == x2 or x <= intersection_x:
+                intersections += 1
+
+    return intersections % 2 == 1  # Si le nombre d'intersections est impair, le point est à l'intérieur
 
 def dessiner_obstacles(obstacles):
     for obstacle in obstacles:
@@ -128,7 +290,7 @@ def peut_deplacer_nouvelle_position(x, y):
     return True
 
 
-def deplacer_joueur_nouvelle_position(dx, dy):
+def deplacer_joueur(dx, dy):
     new_x, new_y = xJoueur + dx, yJoueur + dy
     if (
         x1 <= new_x <= x2
@@ -145,6 +307,7 @@ if __name__ == "__main__":
 
     cree_fenetre(largeurFenetre, hauteurFenetre)
     rectangle(0, 0, largeurFenetre, hauteurFenetre, remplissage="black")
+    global x1, x2, y1, y2
     x1 = 300
     x2 = 1200
     y1 = 200
@@ -163,8 +326,8 @@ if __name__ == "__main__":
     """Position du Qix"""
     x_fantome = (x1 + x2) // 2
     y_fantome = (y1 + y2) // 2
-    speedXFantome = 3
-    speedYFantome = 1
+    speedXFantome = 0
+    speedYFantome = 0
     positionFantome = (x_fantome, y_fantome)
     # ****************************************************************************************************************************
     """Position des sparx"""
@@ -271,19 +434,19 @@ if __name__ == "__main__":
                 oldX, oldY = xJoueur, yJoueur
 
                 if touche(ev) == "Up":
-                    xJoueur, yJoueur = deplacer_joueur_nouvelle_position(
+                    xJoueur, yJoueur = deplacer_joueur(
                         0, -vitesseJoueur
                     )
                 elif touche(ev) == "Down":
-                    xJoueur, yJoueur = deplacer_joueur_nouvelle_position(
+                    xJoueur, yJoueur = deplacer_joueur(
                         0, vitesseJoueur
                     )
                 elif touche(ev) == "Left":
-                    xJoueur, yJoueur = deplacer_joueur_nouvelle_position(
+                    xJoueur, yJoueur = deplacer_joueur(
                         -vitesseJoueur, 0
                     )
                 elif touche(ev) == "Right":
-                    xJoueur, yJoueur = deplacer_joueur_nouvelle_position(
+                    xJoueur, yJoueur = deplacer_joueur(
                         vitesseJoueur, 0
                     )
 
@@ -293,9 +456,12 @@ if __name__ == "__main__":
                     dessin(oldX, oldY, xJoueur, yJoueur)
                     listePositionsLignes.append((oldX, oldY, xJoueur, yJoueur))
                     if xJoueur <= x1 or xJoueur >= x2 or yJoueur <= y1 or yJoueur >= y2:
+                        end_position = (xJoueur, yJoueur)
                         dernierPoint = listePositionsLignes[-1][2:]
                         listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
-                        tracerPolygone(listePositionsLignes)
+                        tracerPolygone(
+                            listePositionsLignes, start_position, end_position,x_fantome,y_fantome
+                        )
                         listePositionsPolygone.extend(listePositionsLignes)
                         listePositionsLignes = []
                         enTrainDeDessiner = not enTrainDeDessiner
@@ -304,6 +470,7 @@ if __name__ == "__main__":
                 joueur(xJoueur, yJoueur)
 
                 if touche(ev) == "Return":
+                    start_position = (xJoueur, yJoueur)
                     enTrainDeDessiner = not enTrainDeDessiner
 
                 for pomme in pommes:
@@ -367,11 +534,10 @@ if __name__ == "__main__":
         else:
             invincible = False
             efface("txtinvin")
-
+        
+        print(listePositionsLignes)
         dessiner_pommes()
         dessiner_obstacles(obstacles)
         mise_a_jour()
-
-    time.sleep(0.1)
-
+    
     ferme_fenetre()
