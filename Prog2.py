@@ -210,8 +210,8 @@ if __name__ == "__main__":
     hauteurFenetre = 900
 
     cree_fenetre(largeurFenetre, hauteurFenetre)
-    ev = donne_ev()
-    tev = type_ev(ev)
+    eve = donne_ev()
+    tev = type_ev(eve)
 
     rectangle(0, 0, largeurFenetre, hauteurFenetre, remplissage="black")
     image(largeurFenetre//2, 160, "Qix.gif",450,200, ancrage="center", tag="im")
