@@ -13,13 +13,78 @@ def joueur(x: int, y: int, taille=5):
 
 
 def dessin(ax: int, ay: int, bx: int, by: int):
-    ligne(ax, ay, bx, by, couleur="white", tag="dessin")
+    ligne(ax, ay, bx, by, couleur="blue", tag="dessin",epaisseur=3)
+
+def calculerAire(polygone: list, superficie_totale: float) -> float:
+    # Calcul de l'aire du polygone en pourcentage de la superficie totale
+    n = len(polygone)
+    aire = 0.0
+
+    for i in range(n):
+        x1, y1 = polygone[i][2], polygone[i][3]
+        x2, y2 = polygone[(i + 1) % n][2], polygone[(i + 1) % n][3]
+        aire += (x1 * y2 - x2 * y1)
+    
+
+    aire_absolue = abs(aire) / 2.0
+    aire_en_pourcentage = (aire_absolue / superficie_totale) * 100
+    return aire_en_pourcentage
 
 
-def tracerPolygone(listePositions: list):
-    if len(listePositions) >= 3:
-        polygone(listePositions, couleur="white", remplissage="green", tag="aire")
 
+def trouver_coins(start_position: tuple, end_position: tuple):
+    if min(start_position[1], end_position[1]) == y1 and max(start_position[1], end_position[1]) == y2 or min(start_position[0], end_position[0]) == x1 and max(start_position[0], end_position[0]) == x2:
+        # si le joueur va de haut en bas (ou de bas en haut) alors je prends les coins de droites.
+        y_corner1 = min(start_position[1], end_position[1])
+        if y_corner1 == y1:
+            x_corner1 = x_corner2 = x2
+            y_corner2 = y2
+        else:  # Sinon je prends les coins du haut
+            x_corner1 = x1
+            y_corner1 = y_corner2 = y1
+            x_corner2 = x2
+        return [(None,None,x_corner1, y_corner1), (None,None,x_corner2, y_corner2)]
+    
+    # si le joueur va dans un des axes adjacents alors je prends les coins de droites.
+    x_corner = x1 if start_position[0] == x1 or end_position[0] == x1 else x2
+    y_corner = y1 if start_position[1] == y1 or end_position[1] == y1 else y2
+    return [(None,None,x_corner, y_corner)]
+
+def sort_corners(end_position: tuple, corners: list):
+    if not corners:
+        return []
+    for corner in corners:
+        if end_position[0] == corner[2] or end_position[1] == corner[3]:
+            return [corner] + sort_corners((corner[2],corner[3]), list(set(corners) - {corner}))
+
+def inverse_coins(corners: list):
+    return list({(None,None,x1, y1), (None,None,x2, y1), (None,None,x2, y2), (None,None,x1, y2)} - set(corners))
+
+
+def tracerPolygone(listePositions: list, start_position: tuple, end_position: tuple, x_fantome: int, y_fantome: int):
+    coins = trouver_coins(start_position, end_position)
+    fantome_est_dedans = intersection_test(x_fantome, y_fantome, listePositions + coins)    
+    if fantome_est_dedans:
+        coins = inverse_coins(coins)
+    coins = sort_corners(end_position, coins)
+    listePositions.extend(coins)
+    polygone(listePositions, couleur="blue", remplissage="purple", tag="aire")
+ 
+    
+    
+def intersection_test(x, y, polygone):
+    intersections = 0
+    for i in range(len(polygone)):
+        x1, y1 = polygone[i][2],polygone[i][3]
+        x2, y2 = polygone[(i + 1) % len(polygone)][2],polygone[(i + 1) % len(polygone)][3]
+        
+        # Vérifie si le point se trouve à gauche du segment de bord
+        if y > min(y1, y2) and y <= max(y1, y2) and x <= max(x1, x2) and y1 != y2:
+            intersection_x = (y - y1) * (x2 - x1) / (y2 - y1) + x1
+            if x1 == x2 or x <= intersection_x:
+                intersections += 1
+
+    return intersections % 2 == 1  # Si le nombre d'intersections est impair, le point est à l'intérieur
 
 def dessiner_obstacles(obstacles):
     for obstacle in obstacles:
@@ -57,15 +122,15 @@ def fantome(x, y):
 
 
 def sparx1(x, y):
-    largeurSparx = 40
-    hauteurSparx = 40
+    largeurSparx = 20
+    hauteurSparx = 20
     image(x, y, "Sparx.gif", largeurSparx, hauteurSparx, ancrage="center", tag="spar1")
     return x, y
 
 
 def sparx2(x, y):
-    largeurSparx = 40
-    hauteurSparx = 40
+    largeurSparx = 20
+    hauteurSparx = 20
     image(x, y, "Sparx.gif", largeurSparx, hauteurSparx, ancrage="center", tag="spar2")
     return x, y
 
@@ -81,16 +146,16 @@ def checkSparxPlayer(
 ) -> bool:
     if (
         (xJoueur + (tailleJoueur // 2) >= x_sparx1)
-        and ((xJoueur + tailleJoueur) <= (x_sparx1 + 40))
+        and ((xJoueur + tailleJoueur) <= (x_sparx1 + 20))
         and (yJoueur + (tailleJoueur // 2) >= y_sparx1)
-        and ((yJoueur + tailleJoueur) <= (y_sparx1 + 40))
+        and ((yJoueur + tailleJoueur) <= (y_sparx1 + 20))
     ):
         return True
     if (
         (xJoueur + (tailleJoueur // 2) >= x_sparx2)
-        and ((xJoueur + tailleJoueur) <= (x_sparx2 + 40))
+        and ((xJoueur + tailleJoueur) <= (x_sparx2 + 20))
         and (yJoueur + (tailleJoueur // 2) >= y_sparx2)
-        and ((yJoueur + tailleJoueur) <= (y_sparx2 + 40))
+        and ((yJoueur + tailleJoueur) <= (y_sparx2 + 20))
     ):
         return True
     else:
@@ -128,7 +193,7 @@ def peut_deplacer_nouvelle_position(x, y):
     return True
 
 
-def deplacer_joueur_nouvelle_position(dx, dy):
+def deplacer_joueur(dx, dy):
     new_x, new_y = xJoueur + dx, yJoueur + dy
     if (
         x1 <= new_x <= x2
@@ -140,19 +205,36 @@ def deplacer_joueur_nouvelle_position(dx, dy):
 
 
 if __name__ == "__main__":
+    
     largeurFenetre = 1500
     hauteurFenetre = 900
 
     cree_fenetre(largeurFenetre, hauteurFenetre)
+    eve = donne_ev()
+    tev = type_ev(eve)
+
     rectangle(0, 0, largeurFenetre, hauteurFenetre, remplissage="black")
-    x1 = 300
-    x2 = 1200
+    image(largeurFenetre//2, 160, "Qix.gif",450,200, ancrage="center", tag="im")
+    rectangle(375, 300, largeurFenetre-375, 410,couleur="gold",epaisseur=5)
+    texte(450, 306, "Mode 1 joueur", couleur="gold", taille=60, police='Arabic Transparent')
+    rectangle(375, 440, largeurFenetre-375, 550,couleur="gold",epaisseur=5)
+    texte(450, 447, "Mode 2 joueur", couleur="gold", taille=60, police='Arabic Transparent')
+    # if tev == "ClicGauche":
+    #     if abscisse(ev) < 1125 and abscisse(ev) > 375 and ordonnee(ev) > 300 and ordonnee(ev) < 410  :
+    attend_clic_gauche()
+    efface_tout()
+    # if touche_pressee == "ClicGauche" and ordonnee("ClicGauche") == 115 and abscisse("ClicGauche") == largeurFenetre//2:
+    rectangle(0, 0, largeurFenetre, hauteurFenetre, remplissage="black")
+    global x1, x2, y1, y2
+    x1 = largeurFenetre//2 - 300
+    x2 = largeurFenetre//2 + 300
     y1 = 200
-    y2 = 800
-    rectangle(x1, y1, x2, y2, couleur="white")
+    y2 = 850
+    rectangle(x1, y1, x2, y2, couleur="blue",epaisseur=3)
     ligne(x1 + 10, y1 - 10, x2 - 10, y1 - 10, couleur="red", epaisseur=5)
     # Logo Qix
-    image(480, 115, "Qix.gif", ancrage="center", tag="im")
+    image(largeurFenetre//2 - 180, 115, "Qix.gif",250,100, ancrage="center", tag="im")
+
 
     xJoueur = (x2 + x1) // 2
     yJoueur = y2
@@ -163,9 +245,9 @@ if __name__ == "__main__":
     """Position du Qix"""
     x_fantome = (x1 + x2) // 2
     y_fantome = (y1 + y2) // 2
-    speedXFantome = 3
-    speedYFantome = 1
-    positionFantome = (x_fantome, y_fantome)
+    speedXFantome = 4
+    speedYFantome = 2
+    positionFantome = (None,None,x_fantome, y_fantome)
     # ****************************************************************************************************************************
     """Position des sparx"""
     x_sparx1 = 750
@@ -202,6 +284,7 @@ if __name__ == "__main__":
 
     vie = 3
     temps_initial = 0
+    joueur_dessine = False
 
     while True and vie != 0:
         """Déplacement du Qix"""
@@ -235,7 +318,7 @@ if __name__ == "__main__":
             x_sparx1 += speedSparx
 
         if x_sparx1 >= x2:
-            x_sparx1 = 1200
+            x_sparx1 = largeurFenetre//2 + 300
             y_sparx1 += speedSparx
 
         if y_sparx1 >= y2:
@@ -253,7 +336,7 @@ if __name__ == "__main__":
             x_sparx2 -= speedSparx
 
         if x_sparx2 <= x1:
-            x_sparx2 = 300
+            x_sparx2 = largeurFenetre//2 - 300
             y_sparx2 += speedSparx
 
         if y_sparx2 >= y2:
@@ -271,19 +354,19 @@ if __name__ == "__main__":
                 oldX, oldY = xJoueur, yJoueur
 
                 if touche(ev) == "Up":
-                    xJoueur, yJoueur = deplacer_joueur_nouvelle_position(
+                    xJoueur, yJoueur = deplacer_joueur(
                         0, -vitesseJoueur
                     )
                 elif touche(ev) == "Down":
-                    xJoueur, yJoueur = deplacer_joueur_nouvelle_position(
+                    xJoueur, yJoueur = deplacer_joueur(
                         0, vitesseJoueur
                     )
                 elif touche(ev) == "Left":
-                    xJoueur, yJoueur = deplacer_joueur_nouvelle_position(
+                    xJoueur, yJoueur = deplacer_joueur(
                         -vitesseJoueur, 0
                     )
                 elif touche(ev) == "Right":
-                    xJoueur, yJoueur = deplacer_joueur_nouvelle_position(
+                    xJoueur, yJoueur = deplacer_joueur(
                         vitesseJoueur, 0
                     )
 
@@ -293,17 +376,24 @@ if __name__ == "__main__":
                     dessin(oldX, oldY, xJoueur, yJoueur)
                     listePositionsLignes.append((oldX, oldY, xJoueur, yJoueur))
                     if xJoueur <= x1 or xJoueur >= x2 or yJoueur <= y1 or yJoueur >= y2:
+                        end_position = (xJoueur, yJoueur)
                         dernierPoint = listePositionsLignes[-1][2:]
                         listePositionsLignes.append((xJoueur, yJoueur, *dernierPoint))
-                        tracerPolygone(listePositionsLignes)
+                        tracerPolygone(
+                            listePositionsLignes, start_position, end_position,x_fantome,y_fantome
+                        )
                         listePositionsPolygone.extend(listePositionsLignes)
                         listePositionsLignes = []
                         enTrainDeDessiner = not enTrainDeDessiner
+                        joueur_dessine = True
+
+
 
                 efface("joueur")
                 joueur(xJoueur, yJoueur)
 
                 if touche(ev) == "Return":
+                    start_position = (xJoueur, yJoueur)
                     enTrainDeDessiner = not enTrainDeDessiner
 
                 for pomme in pommes:
@@ -322,14 +412,37 @@ if __name__ == "__main__":
                     vitesseJoueur += 5
 
         """On affiche le nombre de vies"""
-        efface("txtvie")
-        texte(
-            700,
-            50,
-            chaine=f"Vie : {vie}",
-            couleur="white",
-            tag="txtvie",
-        )
+        efface("vie")
+        vie1 = 3
+        if vie1 == vie:
+            image(
+                largeurFenetre//2 ,
+                70,
+                "coeur.gif",
+                35,
+                40,
+                tag="vie",
+            )
+        vie2 = 2
+        if vie2 <= vie:
+            image(
+                largeurFenetre//2 + 40,
+                70,
+                "coeur.gif",
+                35,
+                40,
+                tag="vie2",
+            )
+        vie3 = 1
+        if vie3 <= vie:
+            image(
+                largeurFenetre//2 + 80,
+                70,
+                "coeur.gif",
+                35,
+                40,
+                tag="vie3",
+            )
 
         if invincible == False:
             if (
@@ -348,6 +461,11 @@ if __name__ == "__main__":
                 xJoueur = (x1 + x2) / 2
                 yJoueur = y2
                 listePositionsPolygone.clear()
+                efface("joueur")
+                efface("dessin")
+                listePositionsLignes = []
+                
+                
 
             if (
                 checkQixPlayer(xJoueur, yJoueur, x_fantome, y_fantome, tailleJoueur)
@@ -361,17 +479,44 @@ if __name__ == "__main__":
                 y_sparx1 = 200
                 x_sparx2 = 745
                 y_sparx2 = 200
+                efface("joueur")
+                efface("dessin")
+                listePositionsLignes = []
+                
+                
 
         if invincible and time.time() - temps_initial_invincible < 3:
-            texte(700, 100, chaine="Invincible", couleur="white", tag="txtinvin")
+            image(largeurFenetre//2 + 50, 120, "invincible.gif",200 , 50 ,tag="txtinvin")
         else:
             invincible = False
             efface("txtinvin")
-
+        
+        if positionFantome in listePositionsLignes and enTrainDeDessiner :
+            vie -= 1
+            xJoueur = (x1 + x2) / 2
+            yJoueur = y2
+            efface("dessin")
+            listePositionsLignes = []
+        
+    
         dessiner_pommes()
         dessiner_obstacles(obstacles)
         mise_a_jour()
-
     time.sleep(0.1)
+
+    efface_tout()
+    while vie == 0:
+        rectangle(0, 0, largeurFenetre, hauteurFenetre, remplissage="black")
+        image(
+                largeurFenetre//2 ,
+                hauteurFenetre//2,
+                "Gameover2.gif",
+                largeurFenetre,
+                hauteurFenetre,
+                tag="vie",
+            )
+        mise_a_jour( )
+        time.sleep(4)
+        break
 
     ferme_fenetre()
