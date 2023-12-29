@@ -419,8 +419,8 @@ if __name__ == "__main__":
                 largeurFenetre//2 ,
                 70,
                 "coeur.gif",
-                35,
-                40,
+                50,
+                60,
                 tag="vie",
             )
         vie2 = 2
@@ -429,8 +429,8 @@ if __name__ == "__main__":
                 largeurFenetre//2 + 40,
                 70,
                 "coeur.gif",
-                35,
-                40,
+                50,
+                60,
                 tag="vie2",
             )
         vie3 = 1
@@ -439,8 +439,8 @@ if __name__ == "__main__":
                 largeurFenetre//2 + 80,
                 70,
                 "coeur.gif",
-                35,
-                40,
+                50,
+                60,
                 tag="vie3",
             )
 
