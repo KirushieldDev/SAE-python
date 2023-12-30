@@ -6,10 +6,10 @@ invincible = False
 
 
 def joueur(x: int, y: int, taille=5):
-    if not invincible:
-        cercle(x, y, taille, couleur="lime", tag="joueur")
+    if invincible:
+        cercle(x, y, taille, couleur="cyan", tag="joueur")
     else:
-        cercle(x, y, taille, couleur="red", tag="joueur")
+        cercle(x, y, taille, couleur="lime", tag="joueur")
 
 
 def dessin(ax: int, ay: int, bx: int, by: int):
