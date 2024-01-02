@@ -6,17 +6,24 @@ invincible = False
 
 
 def joueur(x: int, y: int, taille=5) -> None:
+    """
+    Fonction qui permet de dessiner le joueur
+    """
     if invincible:
         cercle(x, y, taille, couleur="lime", tag="joueur")
     else:
         cercle(x, y, taille, couleur="red", tag="joueur")
 
 
-def dessin(ax: int, ay: int, bx: int, by: int):
+def dessin(ax: int, ay: int, bx: int, by: int) -> None:
+    """
+    Fonction qui permet de dessiner la ligne qui va suivre
+    le joueur
+    """
     ligne(ax, ay, bx, by, couleur="blue", tag="dessin",epaisseur=3)
 
 
-def trouver_coins(start_position: tuple, end_position: tuple):
+def trouver_coins(start_position: tuple, end_position: tuple) -> list:
     if min(start_position[1], end_position[1]) == y1 and max(start_position[1], end_position[1]) == y2 or min(start_position[0], end_position[0]) == x1 and max(start_position[0], end_position[0]) == x2:
         # si le joueur va de haut en bas (ou de bas en haut) alors je prends les coins de droites.
         y_corner1 = min(start_position[1], end_position[1])
@@ -34,18 +41,18 @@ def trouver_coins(start_position: tuple, end_position: tuple):
     y_corner = y1 if start_position[1] == y1 or end_position[1] == y1 else y2
     return [(None,None,x_corner, y_corner)]
 
-def sort_corners(end_position: tuple, corners: list):
+def sort_corners(end_position: tuple, corners: list) -> list:
     if not corners:
         return []
     for corner in corners:
         if end_position[0] == corner[2] or end_position[1] == corner[3]:
             return [corner] + sort_corners((corner[2],corner[3]), list(set(corners) - {corner}))
 
-def inverse_coins(corners: list):
+def inverse_coins(corners: list) -> list:
     return list({(None,None,x1, y1), (None,None,x2, y1), (None,None,x2, y2), (None,None,x1, y2)} - set(corners))
 
 
-def tracerPolygone(listePositions: list, start_position: tuple, end_position: tuple, x_fantome: int, y_fantome: int):
+def tracerPolygone(listePositions: list, start_position: tuple, end_position: tuple, x_fantome: int, y_fantome: int) -> None:
     coins = trouver_coins(start_position, end_position)
     fantome_est_dedans = intersection_test(x_fantome, y_fantome, listePositions + coins)    
     if fantome_est_dedans:
@@ -56,7 +63,7 @@ def tracerPolygone(listePositions: list, start_position: tuple, end_position: tu
  
     
     
-def intersection_test(x, y, polygone):
+def intersection_test(x, y, polygone) -> bool:
     intersections = 0
     for i in range(len(polygone)):
         x1, y1 = polygone[i][2],polygone[i][3]
@@ -70,7 +77,10 @@ def intersection_test(x, y, polygone):
 
     return intersections % 2 == 1  # Si le nombre d'intersections est impair, le point est à l'intérieur
 
-def dessiner_obstacles(obstacles):
+def dessiner_obstacles(obstacles: list) -> None:
+    """
+    Fonction qui permet de dessiner les obstacles
+    """
     for obstacle in obstacles:
         rectangle(
             obstacle[0],
@@ -83,10 +93,10 @@ def dessiner_obstacles(obstacles):
         )
 
 
-"""Création du Qix"""
-
-
-def fantome(x, y):
+def fantome(x: int, y: int) -> tuple:
+    """
+    Fonction qui permet de dessiner le qix
+    """
     largeurFantome = 70
     hauteurFantome = 80
     image(
@@ -102,21 +112,24 @@ def fantome(x, y):
 
 
 # ****************************************************************************************************************************
-"""Création des sparx"""
 
 
-def sparx1(x, y):
+def sparx1(x: int, y: int) -> None:
+    """
+    Fonction qui permet de dessiner le premier sparx
+    """
     largeurSparx = 20
     hauteurSparx = 20
     image(x, y, "Sparx.gif", largeurSparx, hauteurSparx, ancrage="center", tag="spar1")
-    return x, y
 
 
-def sparx2(x, y):
+def sparx2(x: int, y: int) -> None:
+    """
+    Fonction qui dessine le deuxième sparx
+    """
     largeurSparx = 20
     hauteurSparx = 20
     image(x, y, "Sparx.gif", largeurSparx, hauteurSparx, ancrage="center", tag="spar2")
-    return x, y
 
 
 def checkSparxPlayer(
@@ -128,6 +141,10 @@ def checkSparxPlayer(
     y_sparx2: float,
     tailleJoueur: int,
 ) -> bool:
+    """
+    Fonctio qui vérifie si il y a eu contact entre le joueur et un sparx
+    Renvoie True si il y a eu contact et False sinon
+    """
     if (
         (xJoueur + (tailleJoueur // 2) >= x_sparx1)
         and ((xJoueur + tailleJoueur) <= (x_sparx1 + 40))
@@ -148,12 +165,14 @@ def checkSparxPlayer(
 
 # ****************************************************************************************************************************
 
-"""La fonction qui permet de vérifier si le joueur touche le qix"""
-
 
 def checkQixPlayer(
     xJoueur: float, yJoueur: float, xQix: float, yQix: float, tailleJoueur: int
 ) -> bool:
+    """
+    Fonction qui vérifie si il y a eu contact entre le joueur et le qix
+    Renvoie True si il y a eu contact et False sinon
+    """
     if (
         (xJoueur + (tailleJoueur // 2) >= xQix - 80 // 2)
         and ((xJoueur + tailleJoueur) <= (xQix + 80 // 2))
@@ -165,19 +184,29 @@ def checkQixPlayer(
         return False
 
 
-def dessiner_pommes():
+def dessiner_pommes() -> None:
+    """
+    Fonction qui permet de dessiner les pommes
+    """
     for pomme in pommes:
         cercle(pomme[0], pomme[1], 5, couleur="red", remplissage="red", tag="pomme")
 
 
-def peut_deplacer_nouvelle_position(x, y):
+def peut_deplacer_nouvelle_position(x: int, y: int) -> bool:
+    """
+    Fonction qui vérifie si le joueur est bloqué par un obstacle
+    Renvoi True si il peut se déplacer et False sinon
+    """
     for obstacle in obstacles:
         if obstacle[0] <= x <= obstacle[2] and obstacle[1] <= y <= obstacle[3]:
             return False
     return True
 
 
-def deplacer_joueur(dx, dy):
+def deplacer_joueur(dx: int, dy: int) -> tuple:
+    """
+    Fonction qui permet de faire déplacer le joueur
+    """
     new_x, new_y = xJoueur + dx, yJoueur + dy
     if (
         x1 <= new_x <= x2
