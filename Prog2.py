@@ -6,10 +6,10 @@ invincible = False
 
 
 def joueur(x: int, y: int, taille=5):
-    if invincible:
-        cercle(x, y, taille, couleur="cyan", tag="joueur")
-    else:
+    if not invincible:
         cercle(x, y, taille, couleur="lime", tag="joueur")
+    else:
+        cercle(x, y, taille, couleur="red", tag="joueur")
 
 
 def dessin(ax: int, ay: int, bx: int, by: int):
@@ -60,8 +60,11 @@ def sort_corners(end_position: tuple, corners: list):
 def inverse_coins(corners: list):
     return list({(None,None,x1, y1), (None,None,x2, y1), (None,None,x2, y2), (None,None,x1, y2)} - set(corners))
 
+somme_aire_polygones = 0.0
 
 def tracerPolygone(listePositions: list, start_position: tuple, end_position: tuple, x_fantome: int, y_fantome: int):
+    global somme_aire_polygones
+
     coins = trouver_coins(start_position, end_position)
     fantome_est_dedans = intersection_test(x_fantome, y_fantome, listePositions + coins)    
     if fantome_est_dedans:
@@ -69,6 +72,14 @@ def tracerPolygone(listePositions: list, start_position: tuple, end_position: tu
     coins = sort_corners(end_position, coins)
     listePositions.extend(coins)
     polygone(listePositions, couleur="blue", remplissage="purple", tag="aire")
+    superficie_totale = (x2 - x1) * (y2 - y1)  # Calcul de la superficie totale du terrain
+
+    if len(listePositions) >= 2:  # Au moins trois points pour former un polygone
+        aire_polygone = calculerAire(listePositions, superficie_totale)
+        efface("airepoly")
+        somme_aire_polygones += aire_polygone  # Addition de l'aire du nouveau polygone à la somme totale
+        print("Somme de l'aire des polygones:", somme_aire_polygones)
+
  
     
     
@@ -78,13 +89,12 @@ def intersection_test(x, y, polygone):
         x1, y1 = polygone[i][2],polygone[i][3]
         x2, y2 = polygone[(i + 1) % len(polygone)][2],polygone[(i + 1) % len(polygone)][3]
         
-        # Vérifie si le point se trouve à gauche du segment de bord
         if y > min(y1, y2) and y <= max(y1, y2) and x <= max(x1, x2) and y1 != y2:
             intersection_x = (y - y1) * (x2 - x1) / (y2 - y1) + x1
             if x1 == x2 or x <= intersection_x:
                 intersections += 1
 
-    return intersections % 2 == 1  # Si le nombre d'intersections est impair, le point est à l'intérieur
+    return intersections % 2 == 1
 
 def dessiner_obstacles(obstacles):
     for obstacle in obstacles:
@@ -383,6 +393,9 @@ if __name__ == "__main__":
                             listePositionsLignes, start_position, end_position,x_fantome,y_fantome
                         )
                         listePositionsPolygone.extend(listePositionsLignes)
+                        for element in listePositionsPolygone:
+                            if (None, None, xJoueur, yJoueur) in element:
+                                end_position == (None, None, xJoueur, yJoueur)
                         listePositionsLignes = []
                         enTrainDeDessiner = not enTrainDeDessiner
                         joueur_dessine = True
@@ -483,7 +496,7 @@ if __name__ == "__main__":
                 efface("dessin")
                 listePositionsLignes = []
                 
-                
+        texte(largeurFenetre//2 + 380, hauteurFenetre//2, f"{round(somme_aire_polygones, 1)} %",couleur="white",tag="airepoly")
 
         if invincible and time.time() - temps_initial_invincible < 3:
             image(largeurFenetre//2 + 50, 120, "invincible.gif",200 , 50 ,tag="txtinvin")
@@ -504,7 +517,22 @@ if __name__ == "__main__":
         mise_a_jour()
     time.sleep(0.1)
 
+    if somme_aire_polygones >= 75:
+        rectangle(0, 0, largeurFenetre, hauteurFenetre, remplissage="black")
+        image(
+                largeurFenetre//2 ,
+                hauteurFenetre//2,
+                "Gameover2.gif",
+                largeurFenetre,
+                hauteurFenetre,
+                tag="vie",
+            )
+        mise_a_jour( )
+        time.sleep(4)
+        
+
     efface_tout()
+
     while vie == 0:
         rectangle(0, 0, largeurFenetre, hauteurFenetre, remplissage="black")
         image(
