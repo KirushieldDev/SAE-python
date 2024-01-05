@@ -31,7 +31,6 @@ def calculerAire(polygone: list, superficie_totale: float) -> float:
     return aire_en_pourcentage
 
 
-
 def trouver_coins(start_position: tuple, end_position: tuple):
     if min(start_position[1], end_position[1]) == y1 and max(start_position[1], end_position[1]) == y2 or min(start_position[0], end_position[0]) == x1 and max(start_position[0], end_position[0]) == x2:
         # si le joueur va de haut en bas (ou de bas en haut) alors je prends les coins de droites.
