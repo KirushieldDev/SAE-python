@@ -475,19 +475,6 @@ if __name__ == "__main__":
             if y_fantome2 >= y2 - 40 or y_fantome2 <= y1 + 40:
                 speedYFantome2 = -speedYFantome2
 
-        if qix_touche_ligne(x_fantome,y_fantome,listePositionsLignes) is True:
-                print("touché")
-                # vie -= 1
-                xJoueur = (x1 + x2) / 2
-                yJoueur = y2
-                if deuxjoueur is True :
-                    xJoueur = x2
-                    yJoueur = y2
-                listePositionsPolygone.clear()
-                efface("joueur")
-                efface("dessin")
-                listePositionsLignes = []
-
         # ****************************************************************************************************************************
         
         """Déplacement des sparx"""
@@ -850,6 +837,32 @@ if __name__ == "__main__":
                 efface("dessin")
                 listePositionsLignes = []
 
+            if qix_touche_ligne(x_fantome,y_fantome,listePositionsLignes) is True:
+                    print("touché")
+                    vie -= 1
+                    xJoueur = (x1 + x2) / 2
+                    yJoueur = y2
+                    if deuxjoueur is True :
+                        xJoueur = x2
+                        yJoueur = y2
+                    listePositionsPolygone.clear()
+                    efface("joueur")
+                    efface("dessin")
+                    listePositionsLignes = []
+
+            if qix_touche_ligne(x_fantome2,y_fantome2,listePositionsLignes) is True:
+                    print("touché")
+                    vie -= 1
+                    xJoueur = (x1 + x2) / 2
+                    yJoueur = y2
+                    if deuxjoueur is True :
+                        xJoueur = x2
+                        yJoueur = y2
+                    listePositionsPolygone.clear()
+                    efface("joueur")
+                    efface("dessin")
+                    listePositionsLignes = []
+
         
         if deuxjoueur is True:
             if invincible2 == False:
@@ -877,7 +890,7 @@ if __name__ == "__main__":
                     efface("dessin2")
                     listePositionsLignes2 = []
                     
-            
+
                 if (
                     checkQixPlayer(xJoueur2, yJoueur2, x_fantome, y_fantome, tailleJoueur2)
                     == True
@@ -909,6 +922,27 @@ if __name__ == "__main__":
                     efface("joueur")
                     efface("dessin")
                     listePositionsLignes = []
+
+
+                if qix_touche_ligne(x_fantome,y_fantome,listePositionsLignes2) is True:
+                    print("touché")
+                    viej2 -= 1
+                    xJoueur2 = x1
+                    yJoueur2 = y2
+                    listePositionsPolygone2.clear()
+                    efface("joueur2")
+                    efface("dessin2")
+                    listePositionsLignes2 = []
+                
+                if qix_touche_ligne(x_fantome2,y_fantome2,listePositionsLignes2) is True:
+                    print("touché")
+                    viej2 -= 1
+                    xJoueur2 = x1
+                    yJoueur2 = y2
+                    listePositionsPolygone2.clear()
+                    efface("joueur2")
+                    efface("dessin2")
+                    listePositionsLignes2 = []
 
         # *******************************************************************************************************************************************************************
         
