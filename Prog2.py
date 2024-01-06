@@ -433,8 +433,8 @@ if __name__ == "__main__":
 # ****************************************************************************************************************************
     
     """Boucle principale du jeu"""
-    
-    while True and vie != 0 and viej2 != 0:        
+    boucle = True
+    while boucle:        
         efface("txtAire")
         efface("fant")
         efface("fant2")
@@ -907,12 +907,48 @@ if __name__ == "__main__":
     
         dessiner_pommes()
         dessiner_obstacles(obstacles)
+        if unjoueur is True:
+            if vie == 0 or somme_aire_polygones >= 75:
+                boucle = False
+        if deuxjoueur is True:
+            if vie == 0 and viej2 == 0 or somme_aire_polygones >= 75 or somme_aire_polygones2 >= 75:
+                boucle = False
         mise_a_jour()
     time.sleep(0.1)
     
     efface_tout()
 
     # **********************************************************************************************************************************************************************************
+
+    """Affichage de la victoire"""
+    while somme_aire_polygones >= 75 :
+        rectangle(0, 0, largeurFenetre, hauteurFenetre, remplissage="black")
+        image(
+                largeurFenetre//2 ,
+                hauteurFenetre//2,
+                "youwin.gif",
+                largeurFenetre,
+                hauteurFenetre,
+                tag="win",
+            )
+        mise_a_jour( )
+        time.sleep(4)
+        break
+
+    if deuxjoueur is True:
+        while somme_aire_polygones >= 75 or somme_aire_polygones2 >= 75:
+            rectangle(0, 0, largeurFenetre, hauteurFenetre, remplissage="black")
+            image(
+                    largeurFenetre//2 ,
+                    hauteurFenetre//2,
+                    "youwin.gif",
+                    largeurFenetre,
+                    hauteurFenetre,
+                    tag="win",
+                )
+            mise_a_jour( )
+            time.sleep(4)
+            break
 
     """Affichage du game over"""
     if unjoueur is True:
@@ -929,32 +965,23 @@ if __name__ == "__main__":
             mise_a_jour( )
             time.sleep(4)
             break
-
-    while vie == 0 and viej2 == 0:
-        rectangle(0, 0, largeurFenetre, hauteurFenetre, remplissage="black")
-        image(
-                largeurFenetre//2 ,
-                hauteurFenetre//2,
-                "Gameover2.gif",
-                largeurFenetre,
-                hauteurFenetre,
-                tag="vie",
-            )
-        mise_a_jour( )
-        time.sleep(4)
-        break
     
-    while somme_aire_polygones >= 75:
-        rectangle(0, 0, largeurFenetre, hauteurFenetre, remplissage="black")
-        image(
-                largeurFenetre//2 ,
-                hauteurFenetre//2,
-                "Gameover2.gif",
-                largeurFenetre,
-                hauteurFenetre,
-                tag="vie",
-            )
-        mise_a_jour( )
-        time.sleep(4)
+    if deuxjoueur is True:
+        while vie == 0 and viej2 == 0:
+            print("yes")
+            rectangle(0, 0, largeurFenetre, hauteurFenetre, remplissage="black")
+            image(
+                    largeurFenetre//2 ,
+                    hauteurFenetre//2,
+                    "Gameover2.gif",
+                    largeurFenetre,
+                    hauteurFenetre,
+                    tag="vie",
+                )
+            mise_a_jour()
+            time.sleep(4)
+            break
+    
+    
         
     ferme_fenetre()
