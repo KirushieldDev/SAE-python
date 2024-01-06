@@ -13,11 +13,13 @@ def joueur(x: int, y: int, taille=5):
 
 
 def dessin(ax: int, ay: int, bx: int, by: int):
-    ligne(ax, ay, bx, by, couleur="blue", tag="dessin", epaisseur=3)
+    ligne(ax, ay, bx, by, couleur="blue", tag="dessin", epaisseur=2)
 
 
 def calculerAire(polygone: list, superficie_totale: float) -> float:
-    # Calcul de l'aire du polygone en pourcentage de la superficie totale
+    """
+    Calcul de l'aire du polygone en pourcentage de la superficie totale
+    """
     n = len(polygone)
     aire = 0.0
 
