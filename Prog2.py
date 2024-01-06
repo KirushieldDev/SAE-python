@@ -234,6 +234,13 @@ def checkQixPlayer(
     else:
         return False
 
+def qix_touche_ligne(x_fantome, y_fantome, liste_positions_lignes):
+    for i in range(len(liste_positions_lignes) - 1):
+        x1, y1, x2, y2 = liste_positions_lignes[i][0], liste_positions_lignes[i][1], liste_positions_lignes[i+1][0], liste_positions_lignes[i+1][1]
+        if (x1 <= x_fantome + 35 <= x2 or x2 <= x_fantome - 35 <= x1) and (y1 <= y_fantome + 40 <= y2 or y2 <= y_fantome - 40 <= y1):
+            return True
+    return False
+
 # ****************************************************************************************************************************
 
 """Initialisations des pommes"""
@@ -468,6 +475,19 @@ if __name__ == "__main__":
             if y_fantome2 >= y2 - 40 or y_fantome2 <= y1 + 40:
                 speedYFantome2 = -speedYFantome2
 
+        if qix_touche_ligne(x_fantome,y_fantome,listePositionsLignes) is True:
+                print("touché")
+                # vie -= 1
+                xJoueur = (x1 + x2) / 2
+                yJoueur = y2
+                if deuxjoueur is True :
+                    xJoueur = x2
+                    yJoueur = y2
+                listePositionsPolygone.clear()
+                efface("joueur")
+                efface("dessin")
+                listePositionsLignes = []
+
         # ****************************************************************************************************************************
         
         """Déplacement des sparx"""
@@ -482,24 +502,22 @@ if __name__ == "__main__":
             y_sparx1 += speedSparx
 
         if y_sparx1 >= y2:
-            y_sparx1 = y2
+            y_sparx1 = 850
             x_sparx1 -= speedSparx
 
         if x_sparx1 <= x1:
-            x_sparx1 = x1
+            x_sparx1 = largeurFenetre//2 - 300
             y_sparx1 -= speedSparx
 
         for position in listePositionsLignes:
-            if (position[0], position[1],position[2], position[3]) in listePositionsLignes and position[2] == x_sparx1 + 50 and position[3] == y_sparx1:
+            if (position[2], position[3]) == (x_sparx1 + 10, y_sparx1):
                 x_sparx1 += speedSparx
-            if (position[2], position[3]) == (x_sparx1 - 50, y_sparx1):
+            if (position[2], position[3]) == (x_sparx1 - 10, y_sparx1):
                 x_sparx1 -= speedSparx
-            if (position[2], position[3]) == (x_sparx1, y_sparx1 + 50):
+            if (position[2], position[3]) == (x_sparx1, y_sparx1 + 10):
                 y_sparx1 += speedSparx
-            if (position[2], position[3]) == (x_sparx1, y_sparx1 - 50):
+            if (position[2], position[3]) == (x_sparx1, y_sparx1 - 10):
                 y_sparx1 -= speedSparx
-
-
 
         efface("spar2")
         sparx2(x_sparx2, y_sparx2)
@@ -899,10 +917,10 @@ if __name__ == "__main__":
             texte(largeurFenetre//2 + 380, hauteurFenetre//2, f"{round(somme_aire_polygones, 1)}%",couleur="white",tag="airepoly")
             texte(largeurFenetre//2 + 380, hauteurFenetre//2 + 40, f"Score : {round(score)}",couleur="white",tag="airepoly")
         if deuxjoueur is True:
-            texte(largeurFenetre//2 + 400, hauteurFenetre//2, f"{round(somme_aire_polygones, 1)}%",couleur="blue",tag="airepoly")
-            texte(largeurFenetre//2 + 400, hauteurFenetre//2 + 40, f"Score Joueur 1 :{round(score)}",couleur="blue",tag="airepoly")
-            texte(largeurFenetre//2 + 400, hauteurFenetre//2 + 80, f"{round(somme_aire_polygones2, 1)}%",couleur="red",tag="airepoly")
-            texte(largeurFenetre//2 + 400, hauteurFenetre//2 + 120, f"Score Joueur 2 :{round(score2)}",couleur="red",tag="airepoly")
+            texte(largeurFenetre//2 + 380, hauteurFenetre//2, f"{round(somme_aire_polygones, 1)}%",couleur="blue",tag="airepoly")
+            texte(largeurFenetre//2 + 380, hauteurFenetre//2 + 40, f"Score Joueur 1 : {round(score)}",couleur="blue",tag="airepoly")
+            texte(largeurFenetre//2 + 380, hauteurFenetre//2 + 80, f"{round(somme_aire_polygones2, 1)}%",couleur="red",tag="airepoly")
+            texte(largeurFenetre//2 + 380, hauteurFenetre//2 + 120, f"Score Joueur 2 : {round(score2)}",couleur="red",tag="airepoly")
 
         if deuxjoueur is True :
             texte(largeurFenetre//2 - 50, 50,"Joueur 1 :",couleur="white",taille = 28, tag="player1")
