@@ -340,7 +340,7 @@ if __name__ == "__main__":
     x2 = largeurFenetre//2 + 300
     y1 = 200
     y2 = 850
-    rectangle(x1, y1, x2, y2, couleur="blue",epaisseur=3)
+    rectangle(x1, y1, x2, y2, couleur="blue",epaisseur=4)
     ligne(x1 + 10, y1 - 10, x2 - 10, y1 - 10, couleur="red", epaisseur=5)
     image(largeurFenetre//2 - 180, 115, "Qix.gif",250,100, ancrage="center", tag="im")
 
@@ -380,10 +380,10 @@ if __name__ == "__main__":
         speedXFantome2 = 6
         speedYFantome2 = 4
     if difficile is True:
-        speedXFantome = 9
-        speedYFantome = 7
-        speedXFantome2 = 9
-        speedYFantome2 = 7
+        speedXFantome = 8
+        speedYFantome = 5
+        speedXFantome2 = 8
+        speedYFantome2 = 5
     positionFantome = (None,None,x_fantome, y_fantome)
 
     x_sparx1 = 750
@@ -489,6 +489,18 @@ if __name__ == "__main__":
             x_sparx1 = x1
             y_sparx1 -= speedSparx
 
+        for position in listePositionsLignes:
+            if (position[0], position[1],position[2], position[3]) in listePositionsLignes and position[2] == x_sparx1 + 50 and position[3] == y_sparx1:
+                x_sparx1 += speedSparx
+            if (position[2], position[3]) == (x_sparx1 - 50, y_sparx1):
+                x_sparx1 -= speedSparx
+            if (position[2], position[3]) == (x_sparx1, y_sparx1 + 50):
+                y_sparx1 += speedSparx
+            if (position[2], position[3]) == (x_sparx1, y_sparx1 - 50):
+                y_sparx1 -= speedSparx
+
+
+
         efface("spar2")
         sparx2(x_sparx2, y_sparx2)
 
@@ -506,6 +518,16 @@ if __name__ == "__main__":
         if x_sparx2 >= x2:
             x_sparx2 = x2
             y_sparx2 -= speedSparx
+
+        for position in listePositionsLignes:
+            if (position[2], position[3]) == (x_sparx2 + 10, y_sparx2):
+                x_sparx2 += speedSparx
+            if (position[2], position[3]) == (x_sparx2 - 10, y_sparx2):
+                x_sparx2 -= speedSparx
+            if (position[2], position[3]) == (x_sparx2, y_sparx2 + 10):
+                y_sparx2 += speedSparx
+            if (position[2], position[3]) == (x_sparx2, y_sparx2 - 10):
+                y_sparx2 -= speedSparx
 
         # ****************************************************************************************************************************
 
