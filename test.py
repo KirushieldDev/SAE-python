@@ -227,8 +227,8 @@ def checkQixLine(listePositionsLignes: list, drawState: bool, positionFantome: t
     Fonction qui permet de vérifier si le qix a touché la ligne du joueur
     """
     if drawState:
-        for position in listePositionsLignes:
-            if position == positionFantome[2][3]:
+        for ligne in listePositionsLignes:
+            if ligne == (positionFantome[2], positionFantome[3]):
                 return True
     
     return False
