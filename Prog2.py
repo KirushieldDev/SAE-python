@@ -505,7 +505,7 @@ if __name__ == "__main__":
             if (position[2], position[3]) == (x_sparx1, y_sparx1 - 10):
                 y_sparx1 -= speedSparx
 
-        efface("spar2")
+        efface("sparx2")
         sparx2(x_sparx2, y_sparx2)
 
         if y_sparx2 <= y1:
