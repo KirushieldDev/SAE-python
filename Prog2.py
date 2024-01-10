@@ -13,10 +13,10 @@ def joueur(x: int, y: int, taille=5):
         cercle(x, y, taille, couleur="red", tag="joueur")
 
 def joueur2(x: int, y: int, taille=5):
-    if not invincible2:
-        cercle(x, y, taille, couleur="yellow", tag="joueur2")
-    else:
+    if invincible2:
         cercle(x, y, taille, couleur="purple", tag="joueur2")
+    else:
+        cercle(x, y, taille, couleur="yellow", tag="joueur2")
 
 """Création des lignes des joueurs"""
 def dessin(ax: int, ay: int, bx: int, by: int):
