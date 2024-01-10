@@ -404,7 +404,6 @@ if __name__ == "__main__":
     if difficile is True:
         speedSparx = 9
 
-    cercle(xJoueur, yJoueur, tailleJoueur, couleur="lime", tag="joueur")
 
     lstBords = [(x1, y1), (x2, y1), (x2, y2), (x1, y2)]
     listePositionsLignes = []
