@@ -5,6 +5,7 @@ Jawed s’est occupé de :
 -La création de l’interface (fond noir, air de jeu bleu, implémentation du logo QIX, ligne rouge au dessus de l’air de jeu)
 -Le déplacement aléatoire du Qix
 -Le déplacement des sparx sur le cadre
+-Les fonctions qui permette de repéré si le qix est dans le polygone du joueur
 Kirushi s’est occupé de :
 - La création et le déplacement du joueur 
 - La fonction qui permet de dessiner les lignes
