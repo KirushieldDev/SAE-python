@@ -10,7 +10,7 @@ def fantome(x, y):
     image(
         x,
         y,
-        "Fantome.gif",
+        "assets/Fantome.gif",
         largeurFantome,
         hauteurFantome,
         ancrage="center",
@@ -26,7 +26,7 @@ def sparx1(x, y):
     """Création du sparx1"""
     largeurSparx = 40
     hauteurSparx = 40
-    image(x, y, "Sparx.gif", largeurSparx, hauteurSparx, ancrage="center", tag="spar1")
+    image(x, y, "assets/Sparx.gif", largeurSparx, hauteurSparx, ancrage="center", tag="spar1")
     return x, y
 
 
@@ -34,7 +34,7 @@ def sparx2(x, y):
     """Création du sparx2"""
     largeurSparx = 40
     hauteurSparx = 40
-    image(x, y, "Sparx.gif", largeurSparx, hauteurSparx, ancrage="center", tag="spar2")
+    image(x, y, "assets/Sparx.gif", largeurSparx, hauteurSparx, ancrage="center", tag="spar2")
     return x, y
 
 
@@ -139,7 +139,7 @@ if __name__ == "__main__":
     )
     ligne(382, 185, 1120, 185, couleur="red", epaisseur=3)
     # Logo Qix
-    image(500, 100, "Qix.gif", ancrage="center", tag="im")
+    image(500, 100, "assets/Qix.gif", ancrage="center", tag="im")
     # ****************************************************************************************************************************
     """Position du Qix"""
     x_fantome = 750

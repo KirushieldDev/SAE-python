@@ -156,7 +156,7 @@ def fantome(x, y):
     image(
         x,
         y,
-        "Qix2.gif",
+        "assets/Qix2.gif",
         largeurFantome,
         hauteurFantome,
         ancrage="center",
@@ -170,7 +170,7 @@ def fantome2(x, y):
     image(
         x,
         y,
-        "Fantome.gif",
+        "assets/Fantome.gif",
         largeurFantome,
         hauteurFantome,
         ancrage="center",
@@ -182,13 +182,13 @@ def fantome2(x, y):
 def sparx1(x, y):
     largeurSparx = 20
     hauteurSparx = 20
-    image(x, y, "Sparx.gif", largeurSparx, hauteurSparx, ancrage="center", tag="spar1")
+    image(x, y, "assets/Sparx.gif", largeurSparx, hauteurSparx, ancrage="center", tag="spar1")
     return x, y
 
 def sparx2(x, y):
     largeurSparx = 20
     hauteurSparx = 20
-    image(x, y, "Sparx.gif", largeurSparx, hauteurSparx, ancrage="center", tag="spar2")
+    image(x, y, "assets/Sparx.gif", largeurSparx, hauteurSparx, ancrage="center", tag="spar2")
     return x, y
 
 # ****************************************************************************************************************************
@@ -283,7 +283,7 @@ if __name__ == "__main__":
     
     """Création du menu de mode de jeu"""
     rectangle(0, 0, largeurFenetre, hauteurFenetre, remplissage="black")
-    image(largeurFenetre//2, 160, "Qix.gif",450,200, ancrage="center", tag="im")
+    image(largeurFenetre//2, 160, "assets/Qix.gif",450,200, ancrage="center", tag="im")
     rectangle(375, 300, largeurFenetre-375, 410,couleur="gold",epaisseur=5)
     texte(450, 306, "Mode 1 joueur", couleur="gold", taille=60, police='Arabic Transparent')
     rectangle(375, 440, largeurFenetre-375, 550,couleur="gold",epaisseur=5)
@@ -306,7 +306,7 @@ if __name__ == "__main__":
 
     """Création du menu de choix de difficulté"""
     rectangle(0, 0, largeurFenetre, hauteurFenetre, remplissage="black")
-    image(largeurFenetre//2, 160, "Qix.gif",450,200, ancrage="center", tag="im")
+    image(largeurFenetre//2, 160, "assets/Qix.gif",450,200, ancrage="center", tag="im")
     rectangle(375, 300, largeurFenetre-375, 410,couleur="gold",epaisseur=5)
     texte(450, 306, "Facile", couleur="gold", taille=60, police='Arabic Transparent')
     rectangle(375, 440, largeurFenetre-375, 550,couleur="gold",epaisseur=5)
@@ -342,7 +342,7 @@ if __name__ == "__main__":
     y2 = 850
     rectangle(x1, y1, x2, y2, couleur="blue",epaisseur=3)
     ligne(x1 + 10, y1 - 10, x2 - 10, y1 - 10, couleur="red", epaisseur=5)
-    image(largeurFenetre//2 - 180, 115, "Qix.gif",250,100, ancrage="center", tag="im")
+    image(largeurFenetre//2 - 180, 115, "assets/Qix.gif",250,100, ancrage="center", tag="im")
 
     # ****************************************************************************************************************************
 
@@ -672,7 +672,7 @@ if __name__ == "__main__":
             image(
                 largeurFenetre//2 + decale ,
                 70,
-                "coeur.gif",
+                "assets/coeur.gif",
                 50,
                 60,
                 tag="vie",
@@ -682,7 +682,7 @@ if __name__ == "__main__":
             image(
                 largeurFenetre//2 + decale2,
                 70,
-                "coeur.gif",
+                "assets/coeur.gif",
                 50,
                 60,
                 tag="vie2",
@@ -694,7 +694,7 @@ if __name__ == "__main__":
             image(
                 largeurFenetre//2 + decale3,
                 70,
-                "coeur.gif",
+                "assets/coeur.gif",
                 50,
                 60,
                 tag="vie3",
@@ -707,7 +707,7 @@ if __name__ == "__main__":
                 image(
                     largeurFenetre//2 + 150 ,
                     120,
-                    "coeur.gif",
+                    "assets/coeur.gif",
                     50,
                     60,
                     tag="viej21",
@@ -717,7 +717,7 @@ if __name__ == "__main__":
                 image(
                     largeurFenetre//2 + 190,
                     120,
-                    "coeur.gif",
+                    "assets/coeur.gif",
                     50,
                     60,
                     tag="viej22",
@@ -729,7 +729,7 @@ if __name__ == "__main__":
                 image(
                     largeurFenetre//2 + 230,
                     120,
-                    "coeur.gif",
+                    "assets/coeur.gif",
                     50,
                     60,
                     tag="viej23",
@@ -891,16 +891,16 @@ if __name__ == "__main__":
         """Invincibilité du joueur s'il touche une pomme"""
         if invincible and time.time() - temps_initial_invincible < 3:
             if deuxjoueur is True:
-                image(largeurFenetre//2 + 380, 70, "invincible.gif",200 , 45 ,tag="txtinvin")
+                image(largeurFenetre//2 + 380, 70, "assets/invincible.gif",200 , 45 ,tag="txtinvin")
             else:
-                image(largeurFenetre//2 + 50, 120, "invincible.gif",200 , 50 ,tag="txtinvin")
+                image(largeurFenetre//2 + 50, 120, "assets/invincible.gif",200 , 50 ,tag="txtinvin")
         else:
             invincible = False
             efface("txtinvin")
 
         if deuxjoueur is True :
             if invincible2 and time.time() - temps_initial_invincible2 < 3:
-                image(largeurFenetre//2 + 380, 120, "invincible.gif",200 , 45 ,tag="txtinvin2")
+                image(largeurFenetre//2 + 380, 120, "assets/invincible.gif",200 , 45 ,tag="txtinvin2")
             else:
                 invincible2 = False
                 efface("txtinvin2")
@@ -926,7 +926,7 @@ if __name__ == "__main__":
         image(
                 largeurFenetre//2 ,
                 hauteurFenetre//2,
-                "youwin.gif",
+                "assets/youwin.gif",
                 largeurFenetre,
                 hauteurFenetre,
                 tag="win",
@@ -941,7 +941,7 @@ if __name__ == "__main__":
             image(
                     largeurFenetre//2 ,
                     hauteurFenetre//2,
-                    "youwin.gif",
+                    "assets/youwin.gif",
                     largeurFenetre,
                     hauteurFenetre,
                     tag="win",
@@ -957,7 +957,7 @@ if __name__ == "__main__":
             image(
                     largeurFenetre//2 ,
                     hauteurFenetre//2,
-                    "Gameover2.gif",
+                    "assets/Gameover2.gif",
                     largeurFenetre,
                     hauteurFenetre,
                     tag="vie",
@@ -973,7 +973,7 @@ if __name__ == "__main__":
             image(
                     largeurFenetre//2 ,
                     hauteurFenetre//2,
-                    "Gameover2.gif",
+                    "assets/Gameover2.gif",
                     largeurFenetre,
                     hauteurFenetre,
                     tag="vie",

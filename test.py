@@ -150,7 +150,7 @@ def fantome(x, y):
     image(
         x,
         y,
-        "Qix2.gif",
+        "assets/Qix2.gif",
         largeurFantome,
         hauteurFantome,
         ancrage="center",
@@ -166,14 +166,14 @@ def fantome(x, y):
 def sparx1(x, y):
     largeurSparx = 20
     hauteurSparx = 20
-    image(x, y, "Sparx.gif", largeurSparx, hauteurSparx, ancrage="center", tag="spar1")
+    image(x, y, "assets/Sparx.gif", largeurSparx, hauteurSparx, ancrage="center", tag="spar1")
     return x, y
 
 
 def sparx2(x, y):
     largeurSparx = 20
     hauteurSparx = 20
-    image(x, y, "Sparx.gif", largeurSparx, hauteurSparx, ancrage="center", tag="spar2")
+    image(x, y, "assets/Sparx.gif", largeurSparx, hauteurSparx, ancrage="center", tag="spar2")
     return x, y
 
 
@@ -265,7 +265,7 @@ if __name__ == "__main__":
     tev = type_ev(eve)
 
     rectangle(0, 0, largeurFenetre, hauteurFenetre, remplissage="black")
-    image(largeurFenetre // 2, 160, "Qix.gif", 450, 200, ancrage="center", tag="im")
+    image(largeurFenetre // 2, 160, "assets/Qix.gif", 450, 200, ancrage="center", tag="im")
     rectangle(375, 300, largeurFenetre - 375, 410, couleur="gold", epaisseur=5)
     texte(
         450,
@@ -299,7 +299,7 @@ if __name__ == "__main__":
     ligne(x1 + 10, y1 - 10, x2 - 10, y1 - 10, couleur="red", epaisseur=5)
     # Logo Qix
     image(
-        largeurFenetre // 2 - 180, 115, "Qix.gif", 250, 100, ancrage="center", tag="im"
+        largeurFenetre // 2 - 180, 115, "assets/Qix.gif", 250, 100, ancrage="center", tag="im"
     )
 
     xJoueur = (x2 + x1) // 2
@@ -484,7 +484,7 @@ if __name__ == "__main__":
             image(
                 largeurFenetre // 2,
                 70,
-                "coeur.gif",
+                "assets/coeur.gif",
                 50,
                 60,
                 tag="vie",
@@ -494,7 +494,7 @@ if __name__ == "__main__":
             image(
                 largeurFenetre // 2 + 40,
                 70,
-                "coeur.gif",
+                "assets/coeur.gif",
                 50,
                 60,
                 tag="vie2",
@@ -504,7 +504,7 @@ if __name__ == "__main__":
             image(
                 largeurFenetre // 2 + 80,
                 70,
-                "coeur.gif",
+                "assets/coeur.gif",
                 50,
                 60,
                 tag="vie3",
@@ -557,7 +557,7 @@ if __name__ == "__main__":
 
         if invincible and time.time() - temps_initial_invincible < 3:
             image(
-                largeurFenetre // 2 + 50, 120, "invincible.gif", 200, 50, tag="txtinvin"
+                largeurFenetre // 2 + 50, 120, "assets/invincible.gif", 200, 50, tag="txtinvin"
             )
         else:
             invincible = False
@@ -580,7 +580,7 @@ if __name__ == "__main__":
         image(
             largeurFenetre // 2,
             hauteurFenetre // 2,
-            "Gameover2.gif",
+            "assets/Gameover2.gif",
             largeurFenetre,
             hauteurFenetre,
             tag="vie",
@@ -595,7 +595,7 @@ if __name__ == "__main__":
         image(
             largeurFenetre // 2,
             hauteurFenetre // 2,
-            "Gameover2.gif",
+            "assets/Gameover2.gif",
             largeurFenetre,
             hauteurFenetre,
             tag="vie",
